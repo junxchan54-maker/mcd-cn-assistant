@@ -130,6 +130,8 @@ mcd-cn-assistant/
    ```
 
    > ⚠️ **一定记得把 `${MCD_MCP_TOKEN}` 替换为「你自己的」实际 MCP Token，点击【保存】！**
+   >
+   > 填入后请确认 `Authorization` 的值已经是你的真实 Token（形如 `Bearer abc123...`）——**WorkBuddy 手动配置页填入的是字面值**，不要保留 `${MCD_MCP_TOKEN}` 这个写法本身。
 
 4. 回到【**自定义连接器**】，将 `mcd-mcp`【**启用**】。
 
