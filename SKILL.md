@@ -15,11 +15,12 @@ metadata:
 
 ## 1. 前置依赖与工具寻址
 
-- 依赖已配置的远程 MCP 服务 `mcd-mcp`（Streamable HTTP，`https://mcp.mcd.cn`，需 `Authorization: Bearer <MCP_TOKEN>`）。
-- 接入方式见 `docs/mcp-setup.md`。若 Token 仍是占位符 `YOUR_MCP_TOKEN` 或返回 401，需引导用户：
-  1. 前往 <https://open.mcd.cn/mcp> 登录并申请 MCP Token；
-  2. 把 MCP 客户端配置中的 `YOUR_MCP_TOKEN` 替换为真实 Token；
+- 依赖已配置的远程 MCP 服务 `mcd-mcp`（Streamable HTTP，`https://mcp.mcd.cn`，需 `Authorization: Bearer <你的 MCP Token>`）。
+- 接入方式见 `docs/mcp-setup.md`。若 Token 仍是占位符 `${MCD_MCP_TOKEN}` 未替换，或返回 401 / 403，需引导用户：
+  1. 前往 <https://open.mcd.cn/mcp> 登录并申请**自己的** MCP Token；
+  2. 把 MCP 客户端配置里的 `${MCD_MCP_TOKEN}` 占位符替换为**使用者自己的**真实 Token（注意保留 `Bearer ` 前缀）；
   3. 在客户端中**信任 / 启用**该服务（多数客户端不会自动生效）。
+  > 本仓库已脱敏，不含任何真实 Token；所有占位符都需使用者自行替换。
 - 工具调用名形如 `mcp__mcd-mcp__<tool-name>`（如 `mcp__mcd-mcp__campaign-calendar`）。若列表中找不到工具，先确认服务是否已被信任启用，而不是改用其它数据源。
 - 完整工具清单见 `references/mcd-tools.md`。
 
@@ -117,7 +118,7 @@ metadata:
 | 现象 | 处理 |
 |---|---|
 | 401 / 工具全部不可用 | Token 无效、过期或未提供 → 引导更新 MCP 客户端配置，并确认已信任启用该服务 |
-| **403 + `校验鉴权authToken必填!`** | **`Authorization` 头的值漏了 `Bearer ` 前缀**（只填了 Token 本身）→ 改为 `Bearer <token>`；注意这里返回的是 **403 而非 401**，别漏查 |
+| **403 + `校验鉴权authToken必填!`** | **`Authorization` 头的值漏了 `Bearer ` 前缀**（只填了 Token 本身）→ 改为 `Bearer <你的 MCP Token>`；注意这里返回的是 **403 而非 401**，别漏查 |
 | 429 | 触发限流 → 降低调用频率，复用已有结果 |
 | 用户未给地址 | 先询问地址，再查门店 |
 | 用户想取消订单 | `query-order` / `order-list` 定位订单 → 用户确认后 `cancel-order` |

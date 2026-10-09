@@ -122,20 +122,20 @@ mcd-cn-assistant/
          "type": "streamablehttp",
          "url": "https://mcp.mcd.cn",
          "headers": {
-           "Authorization": "Bearer YOUR_MCP_TOKEN"
+           "Authorization": "Bearer ${MCD_MCP_TOKEN}"
          }
        }
      }
    }
    ```
 
-   > ⚠️ **一定记得替换 `YOUR_MCP_TOKEN` 为实际 MCP Token，点击【保存】！**
+   > ⚠️ **一定记得把 `${MCD_MCP_TOKEN}` 替换为「你自己的」实际 MCP Token，点击【保存】！**
 
 4. 回到【**自定义连接器**】，将 `mcd-mcp`【**启用**】。
 
 其他客户端（Cursor / Cherry Studio / Trae / VSCode / Claude Code）见 **[docs/mcp-setup.md](./docs/mcp-setup.md)**。
 
-> 📌 注意区分两种占位符：客户端配置里用 `YOUR_MCP_TOKEN`（**必须替换**为真实 Token）；仓库内的 [`mcp-config.example.json`](./mcp-config.example.json) 是**脱敏示例**，按赛事要求只使用环境变量占位符 `${MCD_MCP_TOKEN}`，**不要**把真实 Token 写进去。
+> 📌 **关于占位符**：本仓库**不含任何真实凭证**，所有出现 `${MCD_MCP_TOKEN}`、`<你的 MCP Token>` 的位置**都需要你填入自己的 MCP Token**。其中 [`mcp-config.example.json`](./mcp-config.example.json) 是**脱敏示例**，按赛事要求只使用环境变量占位符，**不要**把真实 Token 写进去。完整对照见 [docs/mcp-setup.md · 占位符速查](./docs/mcp-setup.md#占位符速查)。
 
 **第 2 步：安装技能**
 
@@ -210,7 +210,7 @@ git clone https://github.com/<your-name>/mcd-cn-assistant.git ~/.workbuddy/skill
 |---|---|
 | 接入地址 | `https://mcp.mcd.cn` |
 | 传输协议 | Streamable HTTP（不支持 WebSocket） |
-| 鉴权 | 请求头 `Authorization: Bearer <MCP_TOKEN>` |
+| 鉴权 | 请求头 `Authorization: Bearer <你的 MCP Token>` |
 | 工具数量 | 35 个（2026-10-09 对线上 `tools/list` 实测核对） |
 | 限流 | 每 Token 600 次/分钟，超限返回 `429` |
 | 覆盖范围 | 中国大陆（不含港澳台） |
@@ -261,7 +261,7 @@ git clone https://github.com/<your-name>/mcd-cn-assistant.git ~/.workbuddy/skill
 
 - [ ] 已在 <https://open.mcd.cn/mcp> 申请到 MCP Token
 - [ ] 已在 WorkBuddy 左侧边栏【专家·技能·连接器】→【连接器】→ 右上角【自定义连接器】→【配置MCP】填入 JSON
-- [ ] ⚠️ 已把 `YOUR_MCP_TOKEN` **替换为实际 MCP Token** 并点击【保存】
+- [ ] ⚠️ 已把 `${MCD_MCP_TOKEN}` **替换为你自己的实际 MCP Token** 并点击【保存】
 - [ ] 已回到【自定义连接器】将 `mcd-mcp`【启用】
 - [ ] 已验证连通：对 Agent 说「查一下这个月麦当劳有什么活动」，能正常返回活动列表
 - [ ] 仓库内 `mcp-config.example.json` 仅含 `${MCD_MCP_TOKEN}`，无任何真实 Token

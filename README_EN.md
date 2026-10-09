@@ -30,7 +30,7 @@ This project orchestrates those tools into **three real user journeys** and hard
     "mcd-mcp": {
       "type": "streamablehttp",
       "url": "https://mcp.mcd.cn",
-      "headers": { "Authorization": "Bearer YOUR_MCP_TOKEN" }
+      "headers": { "Authorization": "Bearer ${MCD_MCP_TOKEN}" }
     }
   }
 }
@@ -39,6 +39,8 @@ This project orchestrates those tools into **three real user journeys** and hard
 3. Clone this repo into your skills directory and ask your agent:
 
 > Use mcd-cn-assistant to show me this month's McDonald's campaigns.
+
+> 🔑 **`${MCD_MCP_TOKEN}` is a placeholder** — replace it with **your own** token (or set an env var of the same name). This repo contains **no real credentials**; every placeholder must be filled in by the user.
 
 Per-client setup guides: **[docs/mcp-setup.md](./docs/mcp-setup.md)**
 

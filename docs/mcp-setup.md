@@ -25,7 +25,7 @@
 |---|---|
 | 接入地址 | `https://mcp.mcd.cn` |
 | 传输协议 | **Streamable HTTP**（不支持 WebSocket） |
-| 鉴权方式 | 请求头 `Authorization: Bearer <MCP_TOKEN>` |
+| 鉴权方式 | 请求头 `Authorization: Bearer <你的 MCP Token>` |
 | 支持版本 | MCP 协议 `2025-06-18` 及之前版本 |
 | 工具数量 | 35 个（2026-10-09 对线上 `tools/list` 实测核对） |
 | 限流 | 每 Token **600 次/分钟**，超限返回 `429` |
@@ -40,14 +40,24 @@
       "type": "streamablehttp",
       "url": "https://mcp.mcd.cn",
       "headers": {
-        "Authorization": "Bearer YOUR_MCP_TOKEN"
+        "Authorization": "Bearer ${MCD_MCP_TOKEN}"
       }
     }
   }
 }
 ```
 
-把 `YOUR_MCP_TOKEN` 替换为第一节拿到的真实 Token 即可。
+> 🔑 **`${MCD_MCP_TOKEN}` 是占位符，不是可以直接用的值**——必须替换成**你自己的** MCP Token（第一节申请到的那个）。也可以不在配置里写死，改为读取同名环境变量 `MCD_MCP_TOKEN`。
+
+### 占位符速查
+
+本文档与整个仓库中出现的以下写法**全都是占位符，需要替换成使用者你自己的信息**。本仓库**不含任何真实凭证**（已做脱敏处理）。
+
+| 占位符 | 出现在 | 要替换成什么 |
+|---|---|---|
+| `${MCD_MCP_TOKEN}` | 所有 JSON 配置示例、命令行示例 | **你自己的**麦当劳 MCP Token；或直接设置同名环境变量 `MCD_MCP_TOKEN` |
+| `<你的 MCP Token>` | 文档正文的字段说明 | **你自己的**麦当劳 MCP Token |
+| `${input:mcd-token}` | VSCode `.vscode/mcp.json` 示例 | **无需手改**——这是 VSCode 的交互式输入语法，首次启动会弹窗请你填写 |
 
 ---
 
@@ -69,14 +79,14 @@
          "type": "streamablehttp",
          "url": "https://mcp.mcd.cn",
          "headers": {
-           "Authorization": "Bearer YOUR_MCP_TOKEN"
+           "Authorization": "Bearer ${MCD_MCP_TOKEN}"
          }
        }
      }
    }
    ```
 
-   > ⚠️ **一定记得替换 `YOUR_MCP_TOKEN` 为实际 MCP Token，点击【保存】！**
+   > ⚠️ **一定记得把 `${MCD_MCP_TOKEN}` 替换为「你自己的」实际 MCP Token，点击【保存】！**
 
 4. 回到【**自定义连接器**】，将 `mcd-mcp`【**启用**】。接下来即可在对话框中输入需求，让 AI 调用相应工具。
 
@@ -84,14 +94,18 @@
 
 也可以直接编辑 `~/.workbuddy/mcp.json`，写入同样内容。注意：**保存文件不会自动生效**，仍需回到【自定义连接器】将 `mcd-mcp` 启用。
 
-#### 3.1.1 两种 Token 占位符的区别（容易混淆，务必分清）
+#### 3.1.1 占位符与脱敏说明
+
+本仓库**已做脱敏处理，不含任何真实 Token**。所有出现以下写法的位置，都需要**换成使用者你自己的信息**：
 
 | 使用场景 | 占位符写法 | 是否要替换成真实 Token |
 |---|---|---|
-| **客户端真实配置**（填入 WorkBuddy / Cursor 等） | `YOUR_MCP_TOKEN` | ✅ **必须手动替换**为实际 Token，然后保存 |
-| **仓库内的脱敏示例** [`mcp-config.example.json`](../mcp-config.example.json) | `${MCD_MCP_TOKEN}` | ❌ **不能**写真实 Token，也不能改成 `YOUR_MCP_TOKEN`——赛事规则要求示例文件"**只允许环境变量占位符**" |
+| **你自己的客户端配置**（WorkBuddy / Cursor / Cherry Studio …） | `${MCD_MCP_TOKEN}` | ✅ **必须替换成你自己的实际 Token**，然后保存 |
+| 文档正文的字段说明 | `<你的 MCP Token>` | ✅ 需要替换成你自己的实际 Token |
+| **仓库内的脱敏示例** [`mcp-config.example.json`](../mcp-config.example.json) | `${MCD_MCP_TOKEN}` | ❌ **不要**把真实 Token 提交回仓库——赛事规则要求示例文件"**只允许环境变量占位符**" |
+| VSCode `.vscode/mcp.json` | `${input:mcd-token}` | ❌ 无需手改，VSCode 会弹窗请你填写 |
 
-一句话：**`YOUR_MCP_TOKEN` 是给你自己配置用的，`${MCD_MCP_TOKEN}` 是给仓库示例文件用的**。
+一句话：**仓库里出现的全都是占位符，照抄配置时记得把 `${MCD_MCP_TOKEN}` 换成你自己的 Token；但不要把真实 Token 提交回仓库。**
 
 ### 3.2 Cursor
 
@@ -107,7 +121,7 @@
 
 1. 打开设置 → 选择 **MCP** 选项卡；
 2. 点击 **添加** → 在下拉框中选择 **从 JSON 导入**；
-3. 粘贴上面的通用配置，**务必替换 `YOUR_MCP_TOKEN`**，点击确定；
+3. 粘贴上面的通用配置，**务必把 `${MCD_MCP_TOKEN}` 换成你自己的 Token**，点击确定；
 4. 添加完成后打开该服务的 **启用开关**。
 
 ### 3.4 Trae
@@ -149,7 +163,7 @@ VSCode 使用 `servers` 字段（不是 `mcpServers`），且类型写 `http`。
 
 ```bash
 claude mcp add --transport http mcd-mcp https://mcp.mcd.cn \
-  --header "Authorization: Bearer YOUR_MCP_TOKEN"
+  --header "Authorization: Bearer ${MCD_MCP_TOKEN}"
 ```
 
 添加后用 `claude mcp list` 确认连接状态。
@@ -177,7 +191,7 @@ claude mcp add --transport http mcd-mcp https://mcp.mcd.cn \
 | 错误码 | 原因 | 处理建议 |
 |---|---|---|
 | `401` | MCP Token 无效、已过期 | 确认 Token 未失效；重新复制 Token 更新配置 |
-| **`403` + `校验鉴权authToken必填!`** | **`Authorization` 头的值缺少 `Bearer ` 前缀** | 值必须是 `Bearer <token>`（注意 Bearer 后有**一个空格**）。只填 token 本身会被服务端判定为"未提供鉴权"——**这是本项目实际踩过的坑，见下方常见坑第 1 条** |
+| **`403` + `校验鉴权authToken必填!`** | **`Authorization` 头的值缺少 `Bearer ` 前缀** | 值必须是 `Bearer <你的 MCP Token>`（注意 Bearer 后有**一个空格**）。只填 token 本身会被服务端判定为"未提供鉴权"——**这是本项目实际踩过的坑，见下方常见坑第 1 条** |
 | `429` | 触发限流（超过 600 次/分钟） | 降低请求频率，复用已获取的结果，避免同时发起大量查询 |
 | 找不到工具 / 服务未连接 | 配置未生效或未被启用 | WorkBuddy 需在「自定义连接器」中点击信任；其他客户端需打开启用开关或重启客户端 |
 | 客户端不支持 | 客户端要求 stdio 传输 | 需选择支持 **Streamable HTTP** 的客户端 |
@@ -186,10 +200,10 @@ claude mcp add --transport http mcd-mcp https://mcp.mcd.cn \
 
 1. **`Authorization` 只填了 Token，漏了 `Bearer ` 前缀** → 服务端返回 **`403`（不是 `401`）**，响应体为 `{"code":"400003","msg":"校验鉴权authToken必填!"}`。很多人只盯着 `401` 排查，反而会漏掉这一条。正确写法：
    ```json
-   "headers": { "Authorization": "Bearer oc_xxxxxxxxxxxxxxxx" }
+   "headers": { "Authorization": "Bearer ${MCD_MCP_TOKEN}" }
    ```
    > 小技巧：改这个请求头**不会导致连接器掉信任**——WorkBuddy 的信任记录绑定的是服务 URL（`sha256(url)`），与 headers 无关。
-2. 配置里 `YOUR_MCP_TOKEN` 忘了替换 → 401；
+2. 配置里的 `${MCD_MCP_TOKEN}` 忘了替换成自己的 Token → 401；
 3. 复制 Token 时带了多余空格或引号 → 401；
 4. WorkBuddy 中只写了 `mcp.json` 但没去「自定义连接器」信任 → 工具不出现；
 5. 多个技能同时高频查询菜单/门店 → 容易触发 429。

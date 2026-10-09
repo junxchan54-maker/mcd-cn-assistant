@@ -12,7 +12,7 @@
 | 接入地址 | `https://mcp.mcd.cn` |
 | 提供方 | 金拱门（中国）有限公司（麦当劳中国） |
 | 传输协议 | Streamable HTTP（不支持 WebSocket） |
-| 鉴权方式 | 请求头 `Authorization: Bearer <MCP_TOKEN>` |
+| 鉴权方式 | 请求头 `Authorization: Bearer <你的 MCP Token>` |
 | 支持版本 | MCP 协议 `2025-06-18` 及之前版本 |
 | 工具总数 | 35 个（2026-10-09 对线上 `tools/list` 实测核对） |
 | 限流 | 每 Token 600 次/分钟，超限返回 `429` |
