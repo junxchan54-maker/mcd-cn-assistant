@@ -246,7 +246,6 @@ git clone https://github.com/<your-name>/mcd-cn-assistant.git ~/.workbuddy/skill
 | 奖品兑换及信息提交截止 | 2026 年 11 月 14 日 |
 | 排名依据 | 项目在 GitHub 获得的**公开 Star 数**（Star 数为 0 不进入排行榜） |
 | 参赛声明 | [CONTEST_DECLARATION.md](./CONTEST_DECLARATION.md)（官方文件，内容未做任何改动） |
-| 完整赛事规则 | [M-China/mcd-developer-innovation-challenge](https://github.com/M-China/mcd-developer-innovation-challenge) |
 
 **提交文件清单（按赛事要求）**
 
@@ -258,16 +257,6 @@ git clone https://github.com/<your-name>/mcd-cn-assistant.git ~/.workbuddy/skill
 | `mcp-config.example.json` | 脱敏后的配置示例，只允许环境变量占位符 | ✅ 仅含 `${MCD_MCP_TOKEN}` |
 | `workbuddy.md` | WorkBuddy 专项奖励所需 | ✅ |
 | 源代码 | 项目主体代码或可运行内容 | ✅ `SKILL.md` + `config/` + `references/` |
-
-**MCP 接入自检清单**
-
-- [ ] 已在 <https://open.mcd.cn/mcp> 申请到 MCP Token
-- [ ] 已在 WorkBuddy 左侧边栏【专家·技能·连接器】→【连接器】→ 右上角【自定义连接器】→【配置MCP】填入 JSON
-- [ ] ⚠️ 已把 `${MCD_MCP_TOKEN}` **替换为你自己的实际 MCP Token** 并点击【保存】
-- [ ] 已回到【自定义连接器】将 `mcd-mcp`【启用】
-- [ ] 已验证连通：对 Agent 说「查一下这个月麦当劳有什么活动」，能正常返回活动列表
-- [ ] 仓库内 `mcp-config.example.json` 仅含 `${MCD_MCP_TOKEN}`，无任何真实 Token
-- [ ] GitHub 仓库可见性为 **Public**（私有仓库不计入 Star 排名）
 
 > 如果这个项目帮你省下了一顿饭钱，欢迎点一个 ⭐ Star 支持一下。
 

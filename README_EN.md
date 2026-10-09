@@ -69,7 +69,6 @@ This project is an entry for the **McDonald's Programmers' Creative Development 
 - Registration & ranking window: 2026-10-09 10:30 — 2026-10-25 23:59 (UTC+8)
 - Ranking is based on **public GitHub Star count**
 - Official declaration: [CONTEST_DECLARATION.md](./CONTEST_DECLARATION.md)
-- Full rules: [M-China/mcd-developer-innovation-challenge](https://github.com/M-China/mcd-developer-innovation-challenge)
 
 ## Design principles
 

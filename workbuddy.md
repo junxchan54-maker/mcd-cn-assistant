@@ -77,7 +77,7 @@
 | 2 | 准备发布到 GitHub 公开仓库，需要项目介绍、参赛声明、MCP 接入说明 | 搭建仓库骨架 → 编写 `README.md` / `README_EN.md` / `docs/mcp-setup.md` / `docs/examples.md`；核实赛事规则的实际来源（确认不在 `mcd-mcp-server` 仓库中） |
 | 3 | 提供赛事仓库地址 `M-China/mcd-developer-innovation-challenge` | 拉取官方规则全文 → **原样落地 `CONTEST_DECLARATION.md`（逐字节校验通过）** → 新增 `MCP_INTEGRATION.md`、`mcp-config.example.json` → 回改 `README.md` 补齐赛事要求的四大要素（项目介绍 / 安装方法 / 使用示例 / 目标用户） |
 | 4 | 提供 GitHub 用户名与邮箱 | 配置 Git 身份 → 创建首次提交（14 个文件 / 1402 行） |
-| 5 | 复查规则，指出官方 WorkBuddy 接入步骤与「替换 Token 并保存」提示缺失 | 逐字复读规则 → 修正 `docs/mcp-setup.md` §3.1 为官方四步流程 → `README.md` 同步并新增「MCP 接入自检清单」 |
+| 5 | 复查规则，指出官方 WorkBuddy 接入步骤与「替换 Token 并保存」提示缺失 | 逐字复读规则 → 修正 `docs/mcp-setup.md` §3.1 为官方四步流程 → `README.md` 的「安装方法」同步官方流程并加 ⚠️ 替换 Token 提示 |
 | 6 | 远程仓库已创建 | 排查推送授权（GitHub PAT 权限最小化定位）→ 成功推送 `main` 分支 → 建立分支跟踪 → 远程一致性核验 |
 | 7 | 新添加自定义连接器 `mcd-mcp` | 连接器排障：定位并修复 `Authorization` 缺失 `Bearer ` 前缀导致的 `403` → 实测 `tools/list` 拉取 **35 个工具** → 据此**校准文档中的工具清单**（总数 36→35、修正 2 个工具名连字符错误、补录 2 个遗漏工具） |
 | 8 | 要求上传前对 Token 与私人信息脱敏 | 全仓库 + Git 历史全量扫描（确认无真实凭证入库）→ 统一占位符写法（6 种 → 2 种）→ 新增「占位符速查」表 |
