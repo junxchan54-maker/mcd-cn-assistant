@@ -109,27 +109,33 @@ mcd-cn-assistant/
 
 前置条件：已取得**麦当劳中国 MCP Token**（在 <https://open.mcd.cn/mcp> 手机号登录 → 控制台 → 激活 → 复制）。
 
-**第 1 步：配置 MCP 服务**
+**第 1 步：配置 MCP 服务（WorkBuddy 官方流程）**
 
-把 [`mcp-config.example.json`](./mcp-config.example.json) 的内容加入你的 MCP 客户端配置，并把 `${MCD_MCP_TOKEN}` 换成你自己的 Token（也可直接设置同名环境变量）：
+1. 打开 WorkBuddy，在左侧边栏【**专家·技能·连接器**】，选中【**连接器**】页签；
+2. 点击右上角【**自定义连接器**】→【**配置MCP**】；
+3. 在打开的手动配置页面中填入以下的 JSON 内容：
 
-```json
-{
-  "mcpServers": {
-    "mcd-mcp": {
-      "type": "streamablehttp",
-      "url": "https://mcp.mcd.cn",
-      "headers": {
-        "Authorization": "Bearer YOUR_MCP_TOKEN"
-      }
-    }
-  }
-}
-```
+   ```json
+   {
+     "mcpServers": {
+       "mcd-mcp": {
+         "type": "streamablehttp",
+         "url": "https://mcp.mcd.cn",
+         "headers": {
+           "Authorization": "Bearer YOUR_MCP_TOKEN"
+         }
+       }
+     }
+   }
+   ```
 
-> 该示例文件**只使用环境变量占位符**，不含任何真实凭证，可安全提交到公开仓库。
+   > ⚠️ **一定记得替换 `YOUR_MCP_TOKEN` 为实际 MCP Token，点击【保存】！**
 
-各客户端的具体位置与启用方式见 **[docs/mcp-setup.md](./docs/mcp-setup.md)**。
+4. 回到【**自定义连接器**】，将 `mcd-mcp`【**启用**】。
+
+其他客户端（Cursor / Cherry Studio / Trae / VSCode / Claude Code）见 **[docs/mcp-setup.md](./docs/mcp-setup.md)**。
+
+> 📌 注意区分两种占位符：客户端配置里用 `YOUR_MCP_TOKEN`（**必须替换**为真实 Token）；仓库内的 [`mcp-config.example.json`](./mcp-config.example.json) 是**脱敏示例**，按赛事要求只使用环境变量占位符 `${MCD_MCP_TOKEN}`，**不要**把真实 Token 写进去。
 
 **第 2 步：安装技能**
 
@@ -250,6 +256,16 @@ git clone https://github.com/<your-name>/mcd-cn-assistant.git ~/.workbuddy/skill
 | `mcp-config.example.json` | 脱敏后的配置示例，只允许环境变量占位符 | ✅ 仅含 `${MCD_MCP_TOKEN}` |
 | `workbuddy.md` | WorkBuddy 专项奖励所需 | ✅ |
 | 源代码 | 项目主体代码或可运行内容 | ✅ `SKILL.md` + `config/` + `references/` |
+
+**MCP 接入自检清单**
+
+- [ ] 已在 <https://open.mcd.cn/mcp> 申请到 MCP Token
+- [ ] 已在 WorkBuddy 左侧边栏【专家·技能·连接器】→【连接器】→ 右上角【自定义连接器】→【配置MCP】填入 JSON
+- [ ] ⚠️ 已把 `YOUR_MCP_TOKEN` **替换为实际 MCP Token** 并点击【保存】
+- [ ] 已回到【自定义连接器】将 `mcd-mcp`【启用】
+- [ ] 已验证连通：对 Agent 说「查一下这个月麦当劳有什么活动」，能正常返回活动列表
+- [ ] 仓库内 `mcp-config.example.json` 仅含 `${MCD_MCP_TOKEN}`，无任何真实 Token
+- [ ] GitHub 仓库可见性为 **Public**（私有仓库不计入 Star 排名）
 
 > 如果这个项目帮你省下了一顿饭钱，欢迎点一个 ⭐ Star 支持一下。
 

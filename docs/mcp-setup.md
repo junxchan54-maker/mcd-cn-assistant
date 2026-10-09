@@ -53,12 +53,45 @@
 
 ## 三、各客户端接入
 
-### 3.1 WorkBuddy
+### 3.1 WorkBuddy（官方推荐流程）
 
-1. 打开配置文件 `~/.workbuddy/mcp.json`（若不存在则新建），写入上面的通用配置；
-2. **保存后不会自动生效**——进入**连接器管理页**，点击右上角的 **「自定义连接器」** 入口；
-3. 在自定义连接器列表中找到新出现的 `mcd-mcp`，点击 **信任 / 启用**；
-4. 启用后在对话中即可直接使用。
+> **前置条件**：需先申请到麦当劳中国的 MCP Token（见第一节）。
+> **参考文档**：[WorkBuddy 官方文档 · 连接器](https://www.workbuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Connector)
+
+1. 打开 WorkBuddy，在左侧边栏【**专家·技能·连接器**】，选中【**连接器**】页签；
+2. 点击右上角【**自定义连接器**】→【**配置MCP**】；
+3. 在打开的手动配置页面中填入以下 JSON 内容：
+
+   ```json
+   {
+     "mcpServers": {
+       "mcd-mcp": {
+         "type": "streamablehttp",
+         "url": "https://mcp.mcd.cn",
+         "headers": {
+           "Authorization": "Bearer YOUR_MCP_TOKEN"
+         }
+       }
+     }
+   }
+   ```
+
+   > ⚠️ **一定记得替换 `YOUR_MCP_TOKEN` 为实际 MCP Token，点击【保存】！**
+
+4. 回到【**自定义连接器**】，将 `mcd-mcp`【**启用**】。接下来即可在对话框中输入需求，让 AI 调用相应工具。
+
+**等价方式（手动编辑配置文件）**
+
+也可以直接编辑 `~/.workbuddy/mcp.json`，写入同样内容。注意：**保存文件不会自动生效**，仍需回到【自定义连接器】将 `mcd-mcp` 启用。
+
+#### 3.1.1 两种 Token 占位符的区别（容易混淆，务必分清）
+
+| 使用场景 | 占位符写法 | 是否要替换成真实 Token |
+|---|---|---|
+| **客户端真实配置**（填入 WorkBuddy / Cursor 等） | `YOUR_MCP_TOKEN` | ✅ **必须手动替换**为实际 Token，然后保存 |
+| **仓库内的脱敏示例** [`mcp-config.example.json`](../mcp-config.example.json) | `${MCD_MCP_TOKEN}` | ❌ **不能**写真实 Token，也不能改成 `YOUR_MCP_TOKEN`——赛事规则要求示例文件"**只允许环境变量占位符**" |
+
+一句话：**`YOUR_MCP_TOKEN` 是给你自己配置用的，`${MCD_MCP_TOKEN}` 是给仓库示例文件用的**。
 
 ### 3.2 Cursor
 
