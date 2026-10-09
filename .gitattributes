@@ -1,0 +1,20 @@
+# 统一使用 LF，避免 Windows 下 CRLF 转换改变文件内容
+* text=auto eol=lf
+
+# 官方参赛声明必须与官方文件保持字节一致，禁止任何行尾转换
+CONTEST_DECLARATION.md text eol=lf
+
+# 配置文件保持 LF
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# 二进制文件不做转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary

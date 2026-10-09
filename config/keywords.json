@@ -1,0 +1,10 @@
+{
+  "follow_keywords": ["联名"],
+  "match_mode": "any",
+  "synonyms": {
+    "联名": ["联名", "合作款", "联名款", "IP合作", "品牌合作", "co-brand", "联名活动"]
+  },
+  "push_time": "09:00",
+  "note": "活动关注关键词配置。由 mcd-cn-assistant skill 读写；用户可通过对话增删关键词，助手应直接编辑本文件并回显最新列表。",
+  "updated_at": "2026-10-09"
+}

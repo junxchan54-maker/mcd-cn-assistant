@@ -1,0 +1,29 @@
+# --- 凭证与本地配置（切勿提交） ---
+mcp.json
+**/mcp.json
+.env
+.env.*
+*.token
+*token*.txt
+.secrets/
+credentials.json
+
+# --- 编辑器与系统 ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# --- 日志与临时文件 ---
+*.log
+tmp/
+temp/
+.cache/
+
+# --- 依赖（如后续引入脚本） ---
+node_modules/
+__pycache__/
+*.pyc
+venv/
+.venv/
