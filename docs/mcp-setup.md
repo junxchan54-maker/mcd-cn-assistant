@@ -27,7 +27,7 @@
 | 传输协议 | **Streamable HTTP**（不支持 WebSocket） |
 | 鉴权方式 | 请求头 `Authorization: Bearer <MCP_TOKEN>` |
 | 支持版本 | MCP 协议 `2025-06-18` 及之前版本 |
-| 工具数量 | 36 个（服务版本 1.0.9） |
+| 工具数量 | 35 个（2026-10-09 对线上 `tools/list` 实测核对） |
 | 限流 | 每 Token **600 次/分钟**，超限返回 `429` |
 | 服务范围 | 中国大陆（不含港澳台） |
 
@@ -165,10 +165,10 @@ claude mcp add --transport http mcd-mcp https://mcp.mcd.cn \
 > 查一下现在的时间，再查一下这个月麦当劳的活动日历
 
 - 如果返回了当前时间和活动列表 → **接入成功**；
-- 如果报 `401` → 见下节排查；
+- 如果报 `401`，或报 **`403` 且响应体含 `校验鉴权authToken必填!`** → 见下节排查；
 - 如果报 `429` → 触发了限流，降低调用频率后重试。
 
-也可以直接检查工具是否可见：在客户端的 MCP 面板中，`mcd-mcp` 下应列出约 36 个工具（`campaign-calendar`、`query-meals`、`calculate-price` 等）。
+也可以直接检查工具是否可见：在客户端的 MCP 面板中，`mcd-mcp` 下应列出 35 个工具（`campaign-calendar`、`query-meals`、`calculate-price` 等）。
 
 ---
 
@@ -176,17 +176,23 @@ claude mcp add --transport http mcd-mcp https://mcp.mcd.cn \
 
 | 错误码 | 原因 | 处理建议 |
 |---|---|---|
-| `401` | MCP Token 无效、已过期或未提供 | 检查请求头是否为 `Authorization: Bearer <token>`；确认 Token 未失效；重新复制 Token 更新配置 |
+| `401` | MCP Token 无效、已过期 | 确认 Token 未失效；重新复制 Token 更新配置 |
+| **`403` + `校验鉴权authToken必填!`** | **`Authorization` 头的值缺少 `Bearer ` 前缀** | 值必须是 `Bearer <token>`（注意 Bearer 后有**一个空格**）。只填 token 本身会被服务端判定为"未提供鉴权"——**这是本项目实际踩过的坑，见下方常见坑第 1 条** |
 | `429` | 触发限流（超过 600 次/分钟） | 降低请求频率，复用已获取的结果，避免同时发起大量查询 |
 | 找不到工具 / 服务未连接 | 配置未生效或未被启用 | WorkBuddy 需在「自定义连接器」中点击信任；其他客户端需打开启用开关或重启客户端 |
 | 客户端不支持 | 客户端要求 stdio 传输 | 需选择支持 **Streamable HTTP** 的客户端 |
 
 **常见坑**
 
-- 配置里 `YOUR_MCP_TOKEN` 忘了替换 → 必然 401；
-- 复制 Token 时带了多余空格或引号 → 401；
-- WorkBuddy 中只写了 `mcp.json` 但没去「自定义连接器」信任 → 工具不出现；
-- 多个技能同时高频查询菜单/门店 → 容易触发 429。
+1. **`Authorization` 只填了 Token，漏了 `Bearer ` 前缀** → 服务端返回 **`403`（不是 `401`）**，响应体为 `{"code":"400003","msg":"校验鉴权authToken必填!"}`。很多人只盯着 `401` 排查，反而会漏掉这一条。正确写法：
+   ```json
+   "headers": { "Authorization": "Bearer oc_xxxxxxxxxxxxxxxx" }
+   ```
+   > 小技巧：改这个请求头**不会导致连接器掉信任**——WorkBuddy 的信任记录绑定的是服务 URL（`sha256(url)`），与 headers 无关。
+2. 配置里 `YOUR_MCP_TOKEN` 忘了替换 → 401；
+3. 复制 Token 时带了多余空格或引号 → 401；
+4. WorkBuddy 中只写了 `mcp.json` 但没去「自定义连接器」信任 → 工具不出现；
+5. 多个技能同时高频查询菜单/门店 → 容易触发 429。
 
 ---
 

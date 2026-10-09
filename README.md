@@ -1,6 +1,6 @@
 # mcd-cn-assistant
 
-> 把麦当劳中国官方 MCP 的 36 个工具，封装成一个开箱即用的 Agent 技能：**活动不错过、优惠不放过、点餐不吃亏**。
+> 把麦当劳中国官方 MCP 的 35 个工具，封装成一个开箱即用的 Agent 技能：**活动不错过、优惠不放过、点餐不吃亏**。
 
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-0F6E56)](https://open.mcd.cn/mcp)
 [![Server](https://img.shields.io/badge/Endpoint-mcp.mcd.cn-185FA5)](https://open.mcd.cn/mcp)
@@ -97,7 +97,7 @@ mcd-cn-assistant/
 ├── config/
 │   └── keywords.json          # 关注关键词配置（能力二读取）
 ├── references/
-│   └── mcd-tools.md           # 36 个 MCP 工具速查表 + 调用顺序 + 错误码
+│   └── mcd-tools.md           # 35 个 MCP 工具速查表 + 调用顺序 + 错误码
 └── docs/
     ├── mcp-setup.md           # MCP 接入说明（WorkBuddy / Cursor / Cherry Studio / Trae / Claude Code …）
     └── examples.md            # 三大能力的真实对话示例
@@ -211,7 +211,7 @@ git clone https://github.com/<your-name>/mcd-cn-assistant.git ~/.workbuddy/skill
 | 接入地址 | `https://mcp.mcd.cn` |
 | 传输协议 | Streamable HTTP（不支持 WebSocket） |
 | 鉴权 | 请求头 `Authorization: Bearer <MCP_TOKEN>` |
-| 工具数量 | 36 个（版本 1.0.9） |
+| 工具数量 | 35 个（2026-10-09 对线上 `tools/list` 实测核对） |
 | 限流 | 每 Token 600 次/分钟，超限返回 `429` |
 | 覆盖范围 | 中国大陆（不含港澳台） |
 

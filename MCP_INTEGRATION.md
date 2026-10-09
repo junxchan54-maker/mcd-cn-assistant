@@ -14,7 +14,7 @@
 | 传输协议 | Streamable HTTP（不支持 WebSocket） |
 | 鉴权方式 | 请求头 `Authorization: Bearer <MCP_TOKEN>` |
 | 支持版本 | MCP 协议 `2025-06-18` 及之前版本 |
-| 工具总数 | 36 个（服务版本 1.0.9） |
+| 工具总数 | 35 个（2026-10-09 对线上 `tools/list` 实测核对） |
 | 限流 | 每 Token 600 次/分钟，超限返回 `429` |
 | 服务范围 | 中国大陆（不含港澳台） |
 
@@ -77,7 +77,7 @@
 | `query-lottery-info` | 积分抽奖活动信息 | 只读 |
 | `draw-lottery` | 执行积分抽奖 | **写操作** |
 | `query-my-prizes` | 我的奖品记录 | 只读 |
-| `query-party-city` / `query-party-store` / `query-partystore-date` / `query-partystore-session` | 主题活动城市 / 门店 / 日期 / 场次查询 | 只读 |
+| `query-party-city` / `query-party-store` / `query-party-store-date` / `query-party-store-session` | 主题活动城市 / 门店 / 日期 / 场次查询 | 只读 |
 | `party-order-create` | 主题活动订单创建 | **写操作** |
 
 完整工具速查（含参数要点与错误码）见 [`references/mcd-tools.md`](./references/mcd-tools.md)。
@@ -152,7 +152,7 @@ flowchart TD
 
 ### 4.1 解决的核心问题
 
-麦当劳官方 MCP 提供 36 个**原子工具**，但原子能力不等于可用的助手。用户的真实诉求是"别错过活动"和"点得最便宜"，而这两件事要求：
+麦当劳官方 MCP 提供 35 个**原子工具**，但原子能力不等于可用的助手。用户的真实诉求是"别错过活动"和"点得最便宜"，而这两件事要求：
 
 - **跨工具编排**：一次"最划算点餐"要串联 6~8 个工具，且顺序错一步结论就错；
 - **业务规则理解**：券有门槛、限渠道、指定商品，第二份半价与满减不可叠加；

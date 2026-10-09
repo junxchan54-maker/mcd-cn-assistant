@@ -3,6 +3,7 @@
 来源：<https://github.com/M-China/mcd-mcp-server>（版本日志至 1.0.9，2026-09-10）
 服务地址：`https://mcp.mcd.cn`（Streamable HTTP，`Authorization: Bearer <MCP_TOKEN>`）
 调用名前缀：`mcp__mcd-mcp__<tool-name>`
+**工具总数：35**（2026-10-09 对线上服务 `tools/list` 实测逐一核对；本文清单即为该次实测结果，与官方 README 的文字描述可能因版本推进存在差异，以线上实测为准）
 
 ## 活动 / 券 / 账户
 
@@ -15,6 +16,7 @@
 | `query-my-coupons` | 我的优惠券查询（账户下全部可用券） | 否 |
 | `query-my-account` | 我的积分查询（可用 / 累计 / 冻结 / 即将过期） | 否 |
 | `query-store-coupons` | 指定门店下可用的优惠券列表 | 否 |
+| `query-survey-coupon` | 按订单号查询本人订单的 CSAT 满意度答卷及关联奖券（标题 / 核销时间 / 核销状态 / 点餐方式） | 否 |
 
 ## 点餐主链路
 
@@ -29,7 +31,8 @@
 | `order-list` | 查询近期到店 / 外送历史订单（非商城订单） | 否 |
 | `cancel-order` | 取消点餐订单 | **是** |
 | `list-nutrition-foods` | 餐品营养信息（能量、蛋白质、脂肪、碳水、钠、钙） | 否 |
-| `query-meal-assistance` | 企业团餐场景下的助餐服务查询 | 否 |
+| `query-meal-assistance` | 企业团餐场景下的助餐服务查询（**仅企业团餐 beType=6**） | 否 |
+| `query-promotions` | 企业团餐场景下的促销规则查询（满减 / 满折，**仅企业团餐 beType=6**） | 否 |
 
 ## 外送地址
 
@@ -63,8 +66,8 @@
 |---|---|---|
 | `query-party-city` | 主题活动可参与城市列表 | 否 |
 | `query-party-store` | 指定城市下可参与门店列表 | 否 |
-| `query-partystore-date` | 指定门店可预约日期 | 否 |
-| `query-partystore-session` | 指定门店 + 日期下可预约场次 | 否 |
+| `query-party-store-date` | 指定门店可预约日期 | 否 |
+| `query-party-store-session` | 指定门店 + 日期下可预约场次 | 否 |
 | `party-order-create` | 主题活动订单创建 | **是** |
 
 ## 典型调用顺序
@@ -81,7 +84,8 @@
 
 | code | 原因 | 处理建议 |
 |---|---|---|
-| 401 | MCP Token 无效、过期或未提供 | 检查 `Authorization` 请求头与 `~/.workbuddy/mcp.json` 配置 |
+| 401 | MCP Token 无效或已过期 | 检查 `Authorization` 请求头与 `~/.workbuddy/mcp.json` 配置，重新复制 Token |
+| **403 + `校验鉴权authToken必填!`** | **`Authorization` 值缺 `Bearer ` 前缀**（只填了 Token 本身） | 值必须是 `Bearer <token>`（Bearer 后一个空格）。**注意返回 403 而非 401**，容易漏查 |
 | 429 | 触发限流（超过 600 次/分钟） | 降低请求频率，合理控制调用间隔 |
 
 ## 版本演进备忘

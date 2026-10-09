@@ -7,7 +7,7 @@
 
 ## What it is
 
-The official McDonald's China MCP server (`https://mcp.mcd.cn`) exposes 36 atomic tools — stores, menus, coupons, pricing, ordering, points, mall, lottery, events. Atomic tools are not an assistant: the user still has to know which tool to call, in what order, and how to combine coupons to get the cheapest basket.
+The official McDonald's China MCP server (`https://mcp.mcd.cn`) exposes 35 atomic tools — stores, menus, coupons, pricing, ordering, points, mall, lottery, events. Atomic tools are not an assistant: the user still has to know which tool to call, in what order, and how to combine coupons to get the cheapest basket.
 
 This project orchestrates those tools into **three real user journeys** and hard-codes the safety boundaries.
 
@@ -54,7 +54,7 @@ mcd-cn-assistant/
 ├── SKILL.md                   # The skill itself (loaded by the agent)
 ├── LICENSE
 ├── config/keywords.json       # Watch keywords for capability ②
-├── references/mcd-tools.md    # All 36 MCP tools + call order + error codes
+├── references/mcd-tools.md    # All 35 MCP tools + call order + error codes
 └── docs/
     ├── mcp-setup.md           # MCP integration guide
     └── examples.md            # Real conversation examples

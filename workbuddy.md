@@ -82,7 +82,7 @@
 | `workbuddy.md` | 专项奖励 | 本文件 |
 | `SKILL.md` | 源代码主体 | 技能主文件，Agent 运行时加载 |
 | `config/keywords.json` | 源代码 | 关键词关注配置 |
-| `references/mcd-tools.md` | 源代码 | 36 个 MCP 工具速查表 |
+| `references/mcd-tools.md` | 源代码 | 35 个 MCP 工具速查表 |
 | `docs/mcp-setup.md` | 文档 | 多客户端 MCP 接入教程 |
 | `docs/examples.md` | 文档 | 真实对话示例 |
 | `README_EN.md` | 文档 | 英文版项目介绍 |
