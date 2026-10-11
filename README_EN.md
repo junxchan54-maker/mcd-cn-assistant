@@ -1,6 +1,6 @@
 # mcd-cn-assistant
 
-> An out-of-the-box AI Agent skill built on the **official McDonald's China MCP service** — never miss a campaign, never miss a coupon, never overpay for a meal.
+> An out-of-the-box AI Agent skill built on the **official McDonald's China MCP service** — never miss a campaign, never miss a coupon, never overpay for a meal, never do group-bill math by hand.
 
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-0F6E56)](https://open.mcd.cn/mcp)
 [![License](https://img.shields.io/badge/License-MIT-3B6D11)](./LICENSE)
@@ -9,15 +9,16 @@
 
 The official McDonald's China MCP server (`https://mcp.mcd.cn`) exposes 35 atomic tools — stores, menus, coupons, pricing, ordering, points, mall, lottery, events. Atomic tools are not an assistant: the user still has to know which tool to call, in what order, and how to combine coupons to get the cheapest basket.
 
-This project orchestrates those tools into **three real user journeys** and hard-codes the safety boundaries.
+This project orchestrates those tools into **four real user journeys** and hard-codes the safety boundaries.
 
-## The three capabilities
+## The four capabilities
 
 | Capability | Trigger | Core orchestration |
 |---|---|---|
 | **① Latest campaign push** | "What's on at McDonald's this month?" | `now-time-info` → `campaign-calendar` |
 | **② Keyword campaign watch** | "Watch the collab editions for me" | `config/keywords.json` → fetch campaigns → keyword + synonym match → push only hits |
 | **③ Best-value ordering** | "How do I order this cheapest?" | Locate store → gather coupons → menu → enumerate combos → **price each via `calculate-price`** → compare → order after confirmation |
+| **④ Group ordering** | "Office tea-break group order, help me collect and split the bill" | Open order session (split preferences) → collect items (agent transcribes, duplicates auto-merged) → discount-threshold upsell + coupon attribution + delivery-fee splitting → per-person bill → settle on the organizer's single account |
 
 ## Quick start
 
@@ -57,6 +58,7 @@ mcd-cn-assistant/
 ├── LICENSE
 ├── config/keywords.json       # Watch keywords for capability ②
 ├── references/mcd-tools.md    # All 35 MCP tools + call order + error codes
+├── references/group-order.md  # Capability ④: order-session schema + splitting algorithm + bill template
 └── docs/
     ├── mcp-setup.md           # MCP integration guide
     └── examples.md            # Real conversation examples

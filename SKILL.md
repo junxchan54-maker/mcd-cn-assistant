@@ -1,7 +1,7 @@
 ---
 name: mcd-cn-assistant
-description: 麦当劳中国官方 MCP 智能助手。当用户提到麦当劳、金拱门、麦乐送、到店取餐、麦咖啡、麦麦省、优惠券、领券、活动日历、麦当劳活动、品牌联名、积分、麦麦商城、抽奖、点餐、下单、比价、怎么点最划算等，优先使用本 skill。三大能力：①获取最新活动推送（查询当月营销活动日历并摘要推送）；②自定义关键词活动关注推送（按 config/keywords.json 中的关键词筛选活动并推送，支持对话增删关键词）；③最优惠点餐（门店→菜单→领券→算价的全链路比价，输出应付金额最低的组合）。
-description_en: McDonald's China official MCP assistant. Three capabilities: latest campaign push (campaign-calendar), keyword-based campaign watch push, and best-value meal ordering with coupon-aware price optimization. Use for any McDonald's China ordering, coupon, campaign or points request.
+description: 麦当劳中国官方 MCP 智能助手。当用户提到麦当劳、金拱门、麦乐送、到店取餐、麦咖啡、麦麦省、优惠券、领券、活动日历、麦当劳活动、品牌联名、积分、麦麦商城、抽奖、点餐、下单、比价、怎么点最划算、拼单、群点、聚餐点餐、办公室下午茶、夜宵拼单、多人点餐、分摊等，优先使用本 skill。四大能力：①获取最新活动推送（查询当月营销活动日历并摘要推送）；②自定义关键词活动关注推送（按 config/keywords.json 中的关键词筛选活动并推送，支持对话增删关键词）；③最优惠点餐（门店→菜单→领券→算价的全链路比价，输出应付金额最低的组合）；④多人群点聚合（聚餐拼单：代录全员餐品→满减凑单→券归属→配送费分摊→自动生成每人账单，组织者单账户统一结算）。
+description_en: McDonald's China official MCP assistant. Four capabilities: latest campaign push (campaign-calendar), keyword-based campaign watch push, best-value meal ordering with coupon-aware price optimization, and group ordering (aggregate everyone's items, upsell suggestions for discount thresholds, coupon attribution, delivery-fee splitting, per-person bill; organizer settles on a single account). Use for any McDonald's China ordering, coupon, campaign, points or group-ordering request.
 metadata:
   author: mcd-cn-assistant
   homepage: https://open.mcd.cn/mcp
@@ -11,7 +11,7 @@ metadata:
 
 # 麦当劳中国 MCP 助手（mcd-cn-assistant）
 
-麦当劳中国官方远程 MCP 服务的封装技能，覆盖**活动推送**与**最优惠点餐**两条主线。
+麦当劳中国官方远程 MCP 服务的封装技能，覆盖**活动推送**、**最优惠点餐**与**多人群点聚合**三条业务主线。
 
 ## 1. 前置依赖与工具寻址
 
@@ -113,7 +113,45 @@ metadata:
 - 若用户明确"只要某单品"，则退化为：该单品可用券中优惠最大的组合。
 - 关注热量/营养时可叠加 `list-nutrition-foods`。
 
-## 6. 常见问题处理
+## 6. 能力四：多人群点聚合（聚餐拼单）
+
+**触发**：用户说"帮大家点麦当劳""办公室下午茶拼单""加班夜宵一起点""宿舍/家庭聚餐点餐""群里点单帮我算账""几个人一起点怎么划算"等**群体点单**诉求。
+
+**定位（必须先向用户讲清）**：MCP 为**单账户鉴权**，本能力是**组织者模式**——全体成员的餐品由下单人在会话内代录，最后用**下单人自己的账户**统一结算，其他人按账单向下单人支付。**严禁**模拟登录、代理登录或索取任何成员的账号 / 密码 / 验证码。收款由组织者自行完成（微信群收款 / 本人收款码），本 Skill 不代收款项、不生成官方收款码。
+
+数据结构、分摊算法与账单模板见 `references/group-order.md`，实现时**必须遵循**其中定义。
+
+**阶段一 · 开单**：
+1. 澄清：就餐方式（外送 / 到店取）、门店或地址、大致人数、分摊偏好；
+2. 分摊偏好三项：配送费（均摊 / 按消费比例 / 指定人承担）、优惠券省额（归下单人 / 平摊）、是否接受凑单建议；
+3. 门店与地址沿用能力三第 3 步链路；
+4. 创建订单会话文件 `<workspace>/.workbuddy/group-orders/yyyymmdd-hhmm-<N>人.json`，回显订单标识，方便后续轮次续单。
+
+**阶段二 · 收单**：
+- 支持随时增改撤："张三 麦辣鸡腿堡×1 可乐×1""李四跟张三一样""王五撤销"；
+- 每次变动后**增量回显**聚合列表：共 N 人 / M 件 / 小计 ¥X，若接近满减档位则附「距下一档还差 ¥Y」；
+- **重复提醒**：多人点相同餐品时自动合并展示数量，并问一句"是否需要分开包装"；
+- 餐品单价一律取自 `query-meals` / `query-meal-detail`，不得使用记忆价。
+
+**阶段三 · 算账（成员确认"收完了"后才进入）**：
+1. 盘券沿用能力三第 4 步（**下单人账户**）；
+2. **满减凑单**：对全员总价比对满减档位；若加购小额单品（派 / 圆筒等）可跨档且净支付更低，给出建议——必须整体送 `calculate-price` 实算验证「加购后总支出 < 不加购总支出」，**征得同意才加入清单，绝不自动加购**；
+3. **券归属**：用下单人账户券参与 `calculate-price`，账单明确标注「券省 ¥X 归下单人」或「平摊每人减 ¥Y」；
+4. **配送费分摊**：以 `calculate-price` 返回的配送费为准，按选定规则计算每人明细（算法含尾差兜底，见参考文档 3.3/3.4）；
+5. **分摊总原则**：每人应付之和必须严格等于实付总额（尾差落在最后一人）。
+
+**阶段四 · 成单与结算**：
+1. 生成账单：每人（餐品明细 / 小计 / 分摊优惠 / 分摊配送费 / **应付**）+ 合计行 + 优惠归属说明（模板见参考文档 4.1）；
+2. 对话内输出 Markdown 账单；组织者需要时可生成**单文件 HTML 账单**（内联样式，可嵌入组织者本人的收款码图片）供分享；
+3. 组织者对账单确认后，按能力三第 9 步下单（写操作二次确认红线不变，**单账户结算**）；
+4. **收款**：账单给出每人应付金额，组织者用微信「群收款」（逐个按金额）或自己的收款码收款。
+
+**异常处理**：
+- 成员中途加单 / 撤单：未下单前随时回到阶段二重算；
+- 下单时券失效：`create-order` 报错即**停止并回滚提示**，不自动重试扣款；
+- 有人不付款：账单即为凭据，不做任何催收、代扣或垫付建议。
+
+## 7. 常见问题处理
 
 | 现象 | 处理 |
 |---|---|
@@ -123,8 +161,10 @@ metadata:
 | 用户未给地址 | 先询问地址，再查门店 |
 | 用户想取消订单 | `query-order` / `order-list` 定位订单 → 用户确认后 `cancel-order` |
 | 想查积分 / 兑换 / 抽奖 | `query-my-account`、`mall-points-products`、`query-lottery-info`、`draw-lottery`（抽奖为写操作，须确认） |
+| 群点有人想用自己的账户券 | 单账户结算下无法使用他人账户券 → 明确告知：本单只能用下单人账户券；他人可自行另点或由其提供等额现金折让（在账单备注，不改账单金额） |
+| 群点成员要求直接登录他的账号下单 | **拒绝**并解释：禁止模拟 / 代理登录；只能由组织者代录后用自己的账户结算 |
 
-## 7. 兼容性
+## 8. 兼容性
 
 本 skill 不绑定特定 Agent 框架，全程使用官方工具名描述流程，可接入任何支持 MCP 的框架（Claude Code / Cursor / Cline / Cherry Studio / Trae / Kiro / VSCode / WorkBuddy 等）。
 
