@@ -25,7 +25,7 @@
 | `query-nearby-stores` | 按地址查询附近可用门店 | 否 |
 | `query-meals` | 查询当前门店可售卖餐品菜单（分类 / 编码 / 标签 / 优惠价） | 否 |
 | `query-meal-detail` | 按餐品编码查详情、套餐组成、可替换/换购选项 | 否 |
-| `calculate-price` | 按选购商品列表（可含优惠券）计算金额、配送费、优惠、应付总价 | 否 |
+| `calculate-price` | 按选购商品列表（可含优惠券）计算金额、配送费、打包费、优惠、应付总价 | 否 |
 | `create-order` | 创建订单，返回订单详情与支付链接 | **是** |
 | `query-order` | 查询订单状态 / 内容 / 配送信息 | 否 |
 | `order-list` | 查询近期到店 / 外送历史订单（非商城订单） | 否 |
@@ -78,7 +78,7 @@
 `now-time-info` → `query-nearby-stores` → `available-coupons` →（用户同意）`auto-bind-coupons` → `query-my-coupons` + `query-store-coupons` → `query-meals` →（可选）`query-meal-detail` → `calculate-price`（多方案）→ 用户确认 → `create-order`
 
 **最优惠点餐（外送）**：
-`now-time-info` → `delivery-query-addresses` → `delivery-query-stores` → 其余同上（`calculate-price` 会含配送费）
+`now-time-info` → `delivery-query-addresses` → `delivery-query-stores` → 其余同上（`calculate-price` 会含**配送费 + 打包费**；外送菜单价与到店不同，务必按 `orderType=2` 重新取 `query-meals`）
 
 ## 错误码
 
