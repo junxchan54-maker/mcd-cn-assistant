@@ -156,7 +156,13 @@ mcd-cn-assistant/
 
 **第 2 步：安装技能**
 
-把本仓库的 `SKILL.md`、`config/`、`references/` 放进你所用客户端的技能目录。推荐直接 clone：
+将这段话复制给你的AI Agent（WorkBuddy、claw等）：
+帮我安装mcd-cn-assistant这个skill：
+1、https://github.com/junxchan54-maker/mcd-cn-assistant/
+2、以后我说麦当劳下单相关的就调用mcd-cn-assistant这个skill
+3、把仓库里 skill/mcd-cn-assistant 文件夹复制到用户级技能目录
+
+把本仓库的 `SKILL.md`、`config/`、`references/` 放进你所用客户端的技能目录。推荐 clone：
 
 ```bash
 git clone https://github.com/<your-name>/mcd-cn-assistant.git ~/.workbuddy/skills/mcd-cn-assistant
