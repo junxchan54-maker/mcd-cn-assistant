@@ -13,12 +13,14 @@ This project orchestrates those tools into **four real user journeys** and hard-
 
 ## The four capabilities
 
+> **One shared ordering entry point (key design).** Both ordering capabilities start at the same gate: for any ordering request, the agent **asks up front — "Just for yourself, or ordering for several people (a group order)?" — before it even looks up a store**. Group ordering therefore **never depends on the user remembering to ask for it**; answering "group order" is enough to enter the full bill-splitting flow. Vague answers get one clarifying follow-up instead of silently defaulting to solo.
+
 | Capability | Trigger | Core orchestration |
 |---|---|---|
 | **① Latest campaign push** | "What's on at McDonald's this month?" | `now-time-info` → `campaign-calendar` |
 | **② Keyword campaign watch** | "Watch the collab editions for me" | `config/keywords.json` → fetch campaigns → keyword + synonym match → push only hits |
-| **③ Best-value ordering** | "How do I order this cheapest?" | Locate store → gather coupons → menu → enumerate combos → **price each via `calculate-price`** → compare → order after confirmation. Note: delivery prices differ from in-store prices, and delivery orders also carry a packing fee |
-| **④ Group ordering** | "Office tea-break group order, help me collect and split the bill" | Open order session (split preferences) → collect items (agent transcribes, duplicates auto-merged) → discount-threshold upsell + coupon attribution + public-fee splitting (delivery + packing) → per-person bill → settle on the organizer's single account |
+| **③ Best-value ordering** | "How do I order this cheapest?" (entry gate answered **solo**) | Locate store → gather coupons → menu → enumerate combos → **price each via `calculate-price`** → compare → order after confirmation. Note: delivery prices differ from in-store prices, and delivery orders also carry a packing fee |
+| **④ Group ordering** | Entry gate answered **"several people / group order"**, or "Office tea-break group order, help me collect and split the bill" | Open order session (split preferences) → collect items (agent transcribes, duplicates auto-merged) → discount-threshold upsell + coupon attribution + public-fee splitting (delivery + packing) → per-person bill → settle on the organizer's single account |
 
 ## Quick start
 
@@ -77,7 +79,8 @@ This project is an entry for the **McDonald's Programmers' Creative Development 
 1. **Write operations require explicit confirmation.** `create-order`, `auto-bind-coupons`, `cancel-order`, `draw-lottery`, `mall-create-order`, `party-order-create`, `delivery-create-address` must never run silently.
 2. **Never do the math yourself.** All amounts come from `calculate-price` — coupon face value does not equal real discount. Delivery orders also carry a packing fee on top of the delivery fee; and delivery menu prices differ from in-store ones (never reuse prices across channels).
 3. **Never trust the model's internal clock.** Always call `now-time-info` first.
-4. **Be rate-limit friendly.** 600 requests/minute per token; call serially and reuse results.
+4. **Ask solo vs. group order at the ordering entry.** Any ordering request triggers a proactive "just for yourself, or a group order?" before store lookup — never wait for the user to bring up group ordering, and never default to solo when the answer is unclear.
+5. **Be rate-limit friendly.** 600 requests/minute per token; call serially and reuse results.
 
 ## Compatibility
 
