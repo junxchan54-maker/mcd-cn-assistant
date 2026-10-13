@@ -1,6 +1,6 @@
 # mcd-cn-assistant
 
-> 把麦当劳中国官方 MCP 的 35 个工具，封装成一个开箱即用的 Agent 技能：**活动不错过、优惠不放过、点餐不吃亏、群点不算账**。
+> 把麦当劳中国官方 MCP 工具，封装成一个开箱即用的 Agent 技能：**活动不错过、优惠不放过、点餐不吃亏、群点不算账**。
 
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-0F6E56)](https://open.mcd.cn/mcp)
 [![Server](https://img.shields.io/badge/Endpoint-mcp.mcd.cn-185FA5)](https://open.mcd.cn/mcp)
