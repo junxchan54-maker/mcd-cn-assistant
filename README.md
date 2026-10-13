@@ -2,7 +2,7 @@
 
 # mcd-cn-assistant
 
-> 把麦当劳中国官方 MCP 的 35 个工具，封装成一个开箱即用的 Agent 技能：**活动不错过、优惠不放过、点餐不吃亏、群点不算账**。
+> 把麦当劳中国官方 MCP 工具，封装成一个开箱即用的 Agent 技能：**活动不错过、优惠不放过、点餐不吃亏、群点不算账**。
 
 [![GitHub stars](https://img.shields.io/github/stars/junxchan54-maker/mcd-cn-assistant?style=social&label=Star)](https://github.com/junxchan54-maker/mcd-cn-assistant/stargazers)
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-0F6E56)](https://open.mcd.cn/mcp)
@@ -158,11 +158,17 @@ mcd-cn-assistant/
 
 其他客户端（Cursor / Cherry Studio / Trae / VSCode / Claude Code）见 **[docs/mcp-setup.md](./docs/mcp-setup.md)**。
 
-> 📌 **关于占位符**：本仓库**不含任何真实凭证**，所有出现 `${MCD_MCP_TOKEN}`、`<你的 MCP Token>` 的位置**都需要你填入自己的 MCP Token**。其中 [`mcp-config.example.json`](./mcp-config.example.json) 是**脱敏示例**，按赛事要求只使用环境变量占位符，**不要**把真实 Token 写进去。完整对照见 [docs/mcp-setup.md · 占位符速查](./docs/mcp-setup.md#占位符速查)。
+> 📌 **关于占位符**：本仓库**不含任何真实凭证**，所有出现 `${MCD_MCP_TOKEN}`、`<你的 MCP Token>` 的位置**都需要你填入自己的 MCP Token**。完整对照见 [docs/mcp-setup.md · 占位符速查](./docs/mcp-setup.md#占位符速查)。
 
 **第 2 步：安装技能**
 
-把本仓库的 `SKILL.md`、`config/`、`references/` 放进你所用客户端的技能目录。推荐直接 clone：
+将这段话复制给你的AI Agent（WorkBuddy、claw等）：
+帮我安装mcd-cn-assistant这个skill：
+1、https://github.com/junxchan54-maker/mcd-cn-assistant/
+2、以后我说麦当劳下单相关的就调用mcd-cn-assistant这个skill
+3、把仓库里 skill/mcd-cn-assistant 文件夹复制到用户级技能目录
+
+把本仓库的 `SKILL.md`、`config/`、`references/` 放进你所用客户端的技能目录。推荐 clone：
 
 ```bash
 git clone https://github.com/<your-name>/mcd-cn-assistant.git ~/.workbuddy/skills/mcd-cn-assistant
