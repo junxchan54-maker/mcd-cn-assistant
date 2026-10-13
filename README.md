@@ -152,7 +152,7 @@ mcd-cn-assistant/
 
 其他客户端（Cursor / Cherry Studio / Trae / VSCode / Claude Code）见 **[docs/mcp-setup.md](./docs/mcp-setup.md)**。
 
-> 📌 **关于占位符**：本仓库**不含任何真实凭证**，所有出现 `${MCD_MCP_TOKEN}`、`<你的 MCP Token>` 的位置**都需要你填入自己的 MCP Token**。其中 [`mcp-config.example.json`](./mcp-config.example.json) 是**脱敏示例**，按赛事要求只使用环境变量占位符，**不要**把真实 Token 写进去。完整对照见 [docs/mcp-setup.md · 占位符速查](./docs/mcp-setup.md#占位符速查)。
+> 📌 **关于占位符**：本仓库**不含任何真实凭证**，所有出现 `${MCD_MCP_TOKEN}`、`<你的 MCP Token>` 的位置**都需要你填入自己的 MCP Token**。完整对照见 [docs/mcp-setup.md · 占位符速查](./docs/mcp-setup.md#占位符速查)。
 
 **第 2 步：安装技能**
 
