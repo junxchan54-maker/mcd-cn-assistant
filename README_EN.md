@@ -1,4 +1,4 @@
-![mcd-cn-assistant · McDonald's China MCP Assistant · campaign push / coupon watch / best-value ordering / group ordering](./assets/banner.svg)
+![mcd-cn-assistant · McDonald's China MCP Assistant · campaign push / collab watch / best-value ordering / group ordering](./assets/banner.svg)
 
 # mcd-cn-assistant
 
@@ -21,7 +21,7 @@ This project orchestrates those tools into **four real user journeys** and hard-
 | Capability | Trigger | Core orchestration |
 |---|---|---|
 | **① Latest campaign push** | "What's on at McDonald's this month?" | `now-time-info` → `campaign-calendar` |
-| **② Keyword campaign watch** | "Watch the collab editions for me" | `config/keywords.json` → fetch campaigns → keyword + synonym match → push only hits |
+| **② Collab-edition watch** | "Watch the collab editions for me" · "Ping me whenever a collab drops" | `config/keywords.json` (default keyword: collab/co-brand + synonyms) → fetch campaigns → keyword + synonym match → push only hits; runs daily at 09:00 unattended |
 | **③ Best-value ordering** | "How do I order this cheapest?" (entry gate answered **solo**) | Locate store → gather coupons → menu → enumerate combos → **price each via `calculate-price`** → compare → order after confirmation. Note: delivery prices differ from in-store prices, and delivery orders also carry a packing fee |
 | **④ Group ordering** | Entry gate answered **"several people / group order"**, or "Office tea-break group order, help me collect and split the bill" | Open order session (split preferences) → collect items (agent transcribes, duplicates auto-merged) → discount-threshold upsell + coupon attribution + public-fee splitting (delivery + packing) → per-person bill → settle on the organizer's single account |
 
@@ -63,7 +63,7 @@ mcd-cn-assistant/
 ├── LICENSE
 ├── assets/banner.svg          # Animated header banner (hand-drawn SVG)
 ├── assets/cta-star.svg        # Star CTA graphic at the bottom
-├── config/keywords.json       # Watch keywords for capability ②
+├── config/keywords.json       # Collab / campaign watch keywords for capability ②
 ├── references/mcd-tools.md    # All 35 MCP tools + call order + error codes
 ├── references/group-order.md  # Capability ④: order-session schema + splitting algorithm + bill template
 └── docs/

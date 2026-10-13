@@ -1,7 +1,7 @@
 ---
 name: mcd-cn-assistant
-description: 麦当劳中国官方 MCP 智能助手。当用户提到麦当劳、金拱门、麦乐送、到店取餐、麦咖啡、麦麦省、优惠券、领券、活动日历、麦当劳活动、品牌联名、积分、麦麦商城、抽奖、点餐、下单、比价、怎么点最划算、拼单、群点、聚餐点餐、办公室下午茶、夜宵拼单、多人点餐、分摊等，优先使用本 skill。四大能力：①获取最新活动推送（查询当月营销活动日历并摘要推送）；②自定义关键词活动关注推送（按 config/keywords.json 中的关键词筛选活动并推送，支持对话增删关键词）；③最优惠点餐（门店→菜单→领券→算价的全链路比价，输出应付金额最低的组合）；④多人群点聚合（聚餐拼单：代录全员餐品→满减凑单→券归属→公共费用分摊（配送费+打包费）→自动生成每人账单，组织者单账户统一结算）。**点餐入口会先主动询问「单人还是多人拼单」，命中多人即转入④，无需用户自己提出。**
-description_en: McDonald's China official MCP assistant. Four capabilities: latest campaign push (campaign-calendar), keyword-based campaign watch push, best-value meal ordering with coupon-aware price optimization, and group ordering (aggregate everyone's items, upsell suggestions for discount thresholds, coupon attribution, delivery-fee splitting, per-person bill; organizer settles on a single account). At the ordering entry point the agent ALWAYS asks whether it is a solo order or a group order, so group ordering never depends on the user bringing it up. Use for any McDonald's China ordering, coupon, campaign, points or group-ordering request.
+description: 麦当劳中国官方 MCP 智能助手。当用户提到麦当劳、金拱门、麦乐送、到店取餐、麦咖啡、麦麦省、优惠券、领券、活动日历、麦当劳活动、品牌联名、联名款、联名周边、限定、IP合作、积分、麦麦商城、抽奖、点餐、下单、比价、怎么点最划算、拼单、群点、聚餐点餐、办公室下午茶、夜宵拼单、多人点餐、分摊等，优先使用本 skill。四大能力：①获取最新活动推送（查询当月营销活动日历并摘要推送）；②联名关注推送（盯联名/限定活动：按 config/keywords.json 中的关键词筛选活动并推送，默认关键词「联名」+ 同义词扩展，支持对话增删关键词）；③最优惠点餐（门店→菜单→领券→算价的全链路比价，输出应付金额最低的组合）；④多人群点聚合（聚餐拼单：代录全员餐品→满减凑单→券归属→公共费用分摊（配送费+打包费）→自动生成每人账单，组织者单账户统一结算）。**点餐入口会先主动询问「单人还是多人拼单」，命中多人即转入④，无需用户自己提出。**
+description_en: McDonald's China official MCP assistant. Four capabilities — latest campaign push (campaign-calendar), collab-edition watch push (keyword-driven screening of campaigns; default keyword "collab/co-brand" with synonym expansion and conversational keyword editing), best-value meal ordering with coupon-aware price optimization, and group ordering (aggregate everyone's items, upsell suggestions for discount thresholds, coupon attribution, delivery-fee splitting, per-person bill; organizer settles on a single account). At the ordering entry point the agent ALWAYS asks whether it is a solo order or a group order, so group ordering never depends on the user bringing it up. Use for any McDonald's China ordering, coupon, campaign, points or group-ordering request.
 metadata:
   author: mcd-cn-assistant
   homepage: https://open.mcd.cn/mcp
@@ -11,7 +11,7 @@ metadata:
 
 # 麦当劳中国 MCP 助手（mcd-cn-assistant）
 
-麦当劳中国官方远程 MCP 服务的封装技能，覆盖**活动推送**、**最优惠点餐**与**多人群点聚合**三条业务主线。
+麦当劳中国官方远程 MCP 服务的封装技能，覆盖**活动推送**、**联名关注**、**最优惠点餐**与**多人群点聚合**四条业务主线。
 
 > **核心交互约定**：所有点餐请求都从同一个入口进入——Agent 会**先主动问一句"单人还是多人拼单"**，再据此分流到能力三（最优惠点餐）或能力四（多人群点聚合）。多人拼单不是"用户得自己想到才有的隐藏功能"。见第 3 节。
 
@@ -75,11 +75,13 @@ metadata:
 | 状态 | 活动名称 | 起止时间 | 一句话参与方式 | 渠道/入口 |
 |---|---|---|---|---|
 
-末尾补一句「需要我按关键词盯着某些活动吗？」引导用户进入能力二。
+末尾补一句「需要我盯着联名款 / 限定活动，有新的就推给你吗？」引导用户进入能力二。
 
-## 5. 能力二：自定义关键词活动关注推送
+## 5. 能力二：联名活动关注推送（关键词机制驱动）
 
-**关键词来源**：本 skill 的 `config/keywords.json` → `follow_keywords`（默认示例：`["联名"]`），并参考其中的 `synonyms` 做同义扩展匹配。
+**定位**：这是"只看我关心的那几条"的能力。默认瞄准**联名 / 限定 / IP 合作**这类最容易错过开售时点的活动，但底层是**通用关键词匹配**——用户换成"新品""早餐""周边"同样成立。
+
+**关键词来源**：本 skill 的 `config/keywords.json` → `follow_keywords`（默认：`["联名"]`），并参考其中的 `synonyms` 做同义扩展匹配（`限定 / 合作款 / 联名款 / IP合作 / 品牌合作 / co-brand / 联名活动`）。
 
 **执行流程（推送任务与被追问时均执行）**：
 1. 读取 `config/keywords.json`。若文件不存在，用默认关键词重建。
