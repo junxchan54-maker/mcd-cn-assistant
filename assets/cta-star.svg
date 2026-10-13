@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 160" width="1280" height="160" role="img" aria-labelledby="ctaTitle ctaDesc" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <title id="ctaTitle">如果这个技能有帮助，请点个 Star 让更多人看到</title>
+  <desc id="ctaDesc">点一下仓库右上角的 Star，每一颗星都会让更多人发现它</desc>
+
+  <defs>
+    <linearGradient id="ctaBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFDE6B"/>
+      <stop offset="0.5" stop-color="#FFC72C"/>
+      <stop offset="1" stop-color="#FFA726"/>
+    </linearGradient>
+    <linearGradient id="ctaShine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="ctaGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="ctaClip"><rect width="1280" height="160" rx="26"/></clipPath>
+    <clipPath id="ctaTextClip"><rect x="180" y="28" width="800" height="110"/></clipPath>
+  </defs>
+
+  <style>
+    @keyframes starTwinkle { 0%,100% { opacity:1 } 50% { opacity:.72 } }
+    @keyframes btnPulse { 0%,100% { opacity:.92 } 50% { opacity:1 } }
+    .star { animation: starTwinkle 3.2s ease-in-out infinite; }
+    .btn { animation: btnPulse 3.2s ease-in-out infinite; }
+  </style>
+
+  <g clip-path="url(#ctaClip)">
+    <rect width="1280" height="160" fill="url(#ctaBg)"/>
+    <ellipse cx="1210" cy="10" rx="260" ry="150" fill="url(#ctaGlow)"/>
+    <ellipse cx="150" cy="150" rx="220" ry="120" fill="url(#ctaGlow)"/>
+
+    <!-- 光带扫过 -->
+    <g clip-path="url(#ctaTextClip)">
+      <rect x="-700" y="0" width="240" height="160" fill="url(#ctaShine)" transform="skewX(-16)">
+        <animateTransform attributeName="transform" type="translate" values="0 0;2150 0" dur="4.6s" repeatCount="indefinite" additive="sum"/>
+      </rect>
+    </g>
+
+    <!-- 星标 -->
+    <g transform="translate(112,80)">
+      <g class="star">
+        <polygon points="0,-46 13.5,-14.5 47.5,-14.5 20,-4.5 29.5,27 0,7.5 -29.5,27 -20,-4.5 -47.5,-14.5 -13.5,-14.5" fill="#7A1210"/>
+        <polygon points="0,-36 10.5,-11.5 37,-11.5 15.5,-3.5 23,21 0,6 -23,21 -15.5,-3.5 -37,-11.5 -10.5,-11.5" fill="#FFFDF3"/>
+      </g>
+    </g>
+
+    <text x="196" y="72" font-size="31" font-weight="700" fill="#7A1210">如果这个技能有帮助，请点个 Star 让更多人看到</text>
+    <text x="196" y="112" font-size="17" fill="#8A2A0D" opacity="0.88">星标是这款作品被更多人看见的唯一途径 —— 你的支持，就是最好的推荐</text>
+
+    <!-- 模拟 Star 按钮 -->
+    <g class="btn">
+      <rect x="1016" y="48" width="212" height="64" rx="32" fill="#7A1210"/>
+      <polygon points="1051,62 1058.2,77.2 1074.8,77.2 1061.4,82.9 1066.6,98.5 1051,90.4 1035.4,98.5 1040.6,82.9 1027.2,77.2 1043.8,77.2" fill="#FFC72C"/>
+      <text x="1084" y="89" font-size="24" font-weight="700" fill="#FFD84D">Star</text>
+    </g>
+  </g>
+
+  <rect x="0.75" y="0.75" width="1278.5" height="158.5" rx="26" fill="none" stroke="rgba(122,18,16,.28)" stroke-width="1.5"/>
+</svg>

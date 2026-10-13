@@ -1,7 +1,10 @@
+![mcd-cn-assistant · McDonald's China MCP Assistant · campaign push / coupon watch / best-value ordering / group ordering](./assets/banner.svg)
+
 # mcd-cn-assistant
 
 > An out-of-the-box AI Agent skill built on the **official McDonald's China MCP service** — never miss a campaign, never miss a coupon, never overpay for a meal, never do group-bill math by hand.
 
+[![GitHub stars](https://img.shields.io/github/stars/junxchan54-maker/mcd-cn-assistant?style=social&label=Star)](https://github.com/junxchan54-maker/mcd-cn-assistant/stargazers)
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-0F6E56)](https://open.mcd.cn/mcp)
 [![License](https://img.shields.io/badge/License-MIT-3B6D11)](./LICENSE)
 
@@ -58,6 +61,8 @@ mcd-cn-assistant/
 ├── workbuddy.md               # WorkBuddy development context
 ├── SKILL.md                   # The skill itself (loaded by the agent)
 ├── LICENSE
+├── assets/banner.svg          # Animated header banner (hand-drawn SVG)
+├── assets/cta-star.svg        # Star CTA graphic at the bottom
 ├── config/keywords.json       # Watch keywords for capability ②
 ├── references/mcd-tools.md    # All 35 MCP tools + call order + error codes
 ├── references/group-order.md  # Capability ④: order-session schema + splitting algorithm + bill template
@@ -93,3 +98,19 @@ This is an **independent community project**, not affiliated with, endorsed by, 
 ## License
 
 [MIT](./LICENSE)
+
+---
+
+## If this skill helps you, please give it a star
+
+![If this skill helps you, please give it a star so more people can see it](./assets/cta-star.svg)
+
+**Click the Star button at the top right of this repo — every star helps someone else find it.**
+
+- **One star = one free "well done"** — and the fuel that keeps this project maintained;
+- The star count is the **only ranking criterion** for this entry in the **McDonald's China Developer Innovation Challenge**, so your support directly decides how many people see it;
+- A **fork**, or sharing it with the colleague currently drowning in group-order math, helps just as much.
+
+<p align="center">
+  <a href="https://github.com/junxchan54-maker/mcd-cn-assistant/stargazers"><img src="https://img.shields.io/github/stars/junxchan54-maker/mcd-cn-assistant?style=for-the-badge&logo=github&label=Star%20this%20repo" alt="Star this repo"></a>
+</p>

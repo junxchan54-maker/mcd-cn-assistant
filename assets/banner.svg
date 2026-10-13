@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" role="img" aria-labelledby="bannerTitle bannerDesc" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <title id="bannerTitle">mcd-cn-assistant — 麦当劳中国 MCP 智能助手</title>
+  <desc id="bannerDesc">四大能力：最新活动推送、关键词关注推送、最优惠点餐、多人群点聚合</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1A1410"/>
+      <stop offset="0.55" stop-color="#2C1108"/>
+      <stop offset="1" stop-color="#4B1007"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFC72C" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#FFC72C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldText" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFEDB8"/>
+      <stop offset="1" stop-color="#FFB627"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="receiptPaper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFDF7"/>
+      <stop offset="1" stop-color="#F4EBD9"/>
+    </linearGradient>
+    <clipPath id="clipAll"><rect width="1280" height="320" rx="26"/></clipPath>
+    <clipPath id="clipTitle"><rect x="40" y="78" width="700" height="84"/></clipPath>
+    <clipPath id="clipReceipt"><rect x="1006" y="76" width="218" height="186" rx="14"/></clipPath>
+  </defs>
+
+  <style>
+    .chip { fill: rgba(255,255,255,.055); stroke: rgba(255,199,44,.9); stroke-width: 1.2; animation: chipPulse 4.4s ease-in-out infinite; }
+    .chipDot { fill: #FFC72C; animation: dotPulse 4.4s ease-in-out infinite; }
+    .bubble { fill: rgba(255,255,255,.10); animation: bubbleIn 5.4s ease-in-out infinite; }
+    @keyframes glowPulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @keyframes chipPulse { 0%,100% { stroke-opacity:.22 } 45%,55% { stroke-opacity:1 } }
+    @keyframes dotPulse { 0%,100% { opacity:.3 } 45%,55% { opacity:1 } }
+    @keyframes bubbleIn { 0% { opacity:1 } 12% { opacity:0 } 28%,100% { opacity:1 } }
+    @keyframes totalPulse { 0%,100% { opacity:1 } 50% { opacity:.6 } }
+    .glow { animation: glowPulse 6.5s ease-in-out infinite; }
+    .total { animation: totalPulse 5.4s ease-in-out infinite; }
+  </style>
+
+  <g clip-path="url(#clipAll)">
+    <rect width="1280" height="320" fill="url(#bg)"/>
+
+    <!-- 背景光晕与装饰 -->
+    <ellipse class="glow" cx="1010" cy="160" rx="300" ry="165" fill="url(#glow)"/>
+    <ellipse class="glow" cx="470" cy="255" rx="240" ry="120" fill="url(#glow)" style="animation-delay:2.2s"/>
+    <path d="M0 288 Q 320 232 640 288 T 1280 288" fill="none" stroke="#FFC72C" stroke-opacity="0.10" stroke-width="1.5"/>
+    <path d="M0 302 Q 320 246 640 302 T 1280 302" fill="none" stroke="#FFC72C" stroke-opacity="0.06" stroke-width="1.5"/>
+
+    <!-- 顶部标签 -->
+    <rect x="56" y="38" width="300" height="32" rx="16" fill="rgba(255,199,44,.12)" stroke="rgba(255,199,44,.45)"/>
+    <circle cx="76" cy="54" r="4" fill="#FFC72C"/>
+    <text x="90" y="59" font-size="14" fill="#FFC72C" letter-spacing="0.5">麦当劳中国官方 MCP · Agent Skill</text>
+
+    <!-- 主标题 -->
+    <g clip-path="url(#clipTitle)">
+      <text x="56" y="140" font-size="52" font-weight="700" fill="#FFF8EC">麦当劳中国 MCP <tspan fill="url(#goldText)">智能助手</tspan></text>
+      <rect x="-720" y="78" width="220" height="84" fill="url(#shine)" transform="skewX(-18)">
+        <animateTransform attributeName="transform" type="translate" values="0 0;1900 0" dur="5.5s" repeatCount="indefinite" additive="sum"/>
+      </rect>
+    </g>
+    <text x="56" y="182" font-size="20" fill="#F0C49E" letter-spacing="0.5">活动不错过 · 优惠不放过 · 点餐不吃亏 · 群点不算账</text>
+
+    <!-- 四大能力 chip -->
+    <rect class="chip" x="56" y="210" width="146" height="46" rx="23" style="animation-delay:0s"/>
+    <circle class="chipDot" cx="76" cy="233" r="4.5" style="animation-delay:0s"/>
+    <text x="90" y="239" font-size="16" fill="#FFE7B8">最新活动推送</text>
+
+    <rect class="chip" x="216" y="210" width="162" height="46" rx="23" style="animation-delay:.7s"/>
+    <circle class="chipDot" cx="236" cy="233" r="4.5" style="animation-delay:.7s"/>
+    <text x="250" y="239" font-size="16" fill="#FFE7B8">关键词关注推送</text>
+
+    <rect class="chip" x="392" y="210" width="130" height="46" rx="23" style="animation-delay:1.4s"/>
+    <circle class="chipDot" cx="412" cy="233" r="4.5" style="animation-delay:1.4s"/>
+    <text x="426" y="239" font-size="16" fill="#FFE7B8">最优惠点餐</text>
+
+    <rect class="chip" x="536" y="210" width="146" height="46" rx="23" style="animation-delay:2.1s"/>
+    <circle class="chipDot" cx="556" cy="233" r="4.5" style="animation-delay:2.1s"/>
+    <text x="570" y="239" font-size="16" fill="#FFE7B8">多人群点聚合</text>
+
+    <text x="56" y="292" font-size="14" fill="rgba(255,255,255,.42)">麦当劳程序员创意开发大赛 · 参赛作品 · MIT License</text>
+
+    <!-- 右侧：群点会话卡片 -->
+    <rect x="744" y="52" width="248" height="210" rx="18" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.14)"/>
+    <circle cx="772" cy="80" r="15" fill="rgba(255,199,44,.22)" stroke="rgba(255,199,44,.5)"/>
+    <text x="772" y="85" font-size="13" font-weight="700" fill="#FFC72C" text-anchor="middle">M</text>
+    <text x="796" y="76" font-size="13" fill="#FFE7B8">群点拼单</text>
+    <text x="796" y="93" font-size="11" fill="rgba(255,255,255,.45)">6 人 · 外送到公司</text>
+    <line x1="760" y1="110" x2="976" y2="110" stroke="rgba(255,255,255,.10)"/>
+
+    <g class="bubble" style="animation-delay:0s">
+      <rect x="760" y="122" width="176" height="30" rx="10"/>
+      <text x="772" y="141" font-size="11.5" fill="#EDEDED">张三 麦辣鸡腿堡×1</text>
+    </g>
+    <g class="bubble" style="animation-delay:.6s">
+      <rect x="784" y="160" width="152" height="30" rx="10"/>
+      <text x="796" y="179" font-size="11.5" fill="#EDEDED">李四 跟张三一样</text>
+    </g>
+    <g class="bubble" style="animation-delay:1.2s">
+      <rect x="800" y="198" width="172" height="30" rx="10"/>
+      <text x="812" y="217" font-size="11.5" fill="#EDEDED">王五 冰美式×1（用券）</text>
+    </g>
+    <text x="760" y="250" font-size="11" fill="rgba(255,199,44,.8)">已收 5/6 人 · 小计 ¥182.00</text>
+
+    <!-- 右侧：账单卡片 -->
+    <g clip-path="url(#clipReceipt)">
+      <rect x="1006" y="76" width="218" height="186" fill="url(#receiptPaper)"/>
+      <rect x="1006" y="76" width="218" height="36" fill="#DA291C"/>
+      <text x="1022" y="100" font-size="14" font-weight="700" fill="#FFF8E6">群点账单</text>
+      <text x="1210" y="99" font-size="10" fill="rgba(255,255,255,.85)" text-anchor="end">2026-10-12</text>
+
+      <text x="1022" y="134" font-size="11" fill="#7A6A58">券前小计（6 人）</text>
+      <text x="1210" y="134" font-size="11" fill="#3A2E22" text-anchor="end">¥182.00</text>
+      <text x="1022" y="154" font-size="11" fill="#7A6A58">券省（冰美式 9.9）</text>
+      <text x="1210" y="154" font-size="11" fill="#3A2E22" text-anchor="end">−¥9.10</text>
+      <text x="1022" y="174" font-size="11" fill="#7A6A58">配送费 + 打包费</text>
+      <text x="1210" y="174" font-size="11" fill="#3A2E22" text-anchor="end">+¥9.00</text>
+      <line x1="1022" y1="188" x2="1210" y2="188" stroke="#D8C9B0" stroke-dasharray="4 4"/>
+
+      <text x="1022" y="216" font-size="12" font-weight="700" fill="#7A1210">实付合计</text>
+      <text class="total" x="1210" y="218" font-size="22" font-weight="700" fill="#DA291C" text-anchor="end">¥181.90</text>
+      <text x="1022" y="244" font-size="10" fill="#94826C">Σ 每人应付 = 实付</text>
+    </g>
+    <rect x="1006" y="76" width="218" height="186" rx="14" fill="none" stroke="rgba(255,199,44,.5)"/>
+  </g>
+
+  <rect x="0.75" y="0.75" width="1278.5" height="318.5" rx="26" fill="none" stroke="rgba(255,199,44,.28)" stroke-width="1.5"/>
+</svg>

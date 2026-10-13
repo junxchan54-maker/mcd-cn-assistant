@@ -1,7 +1,10 @@
+![mcd-cn-assistant · 麦当劳中国 MCP 智能助手 · 活动不错过 / 优惠不放过 / 点餐不吃亏 / 群点不算账](./assets/banner.svg)
+
 # mcd-cn-assistant
 
 > 把麦当劳中国官方 MCP 的 35 个工具，封装成一个开箱即用的 Agent 技能：**活动不错过、优惠不放过、点餐不吃亏、群点不算账**。
 
+[![GitHub stars](https://img.shields.io/github/stars/junxchan54-maker/mcd-cn-assistant?style=social&label=Star)](https://github.com/junxchan54-maker/mcd-cn-assistant/stargazers)
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-0F6E56)](https://open.mcd.cn/mcp)
 [![Server](https://img.shields.io/badge/Endpoint-mcp.mcd.cn-185FA5)](https://open.mcd.cn/mcp)
 [![License](https://img.shields.io/badge/License-MIT-3B6D11)](./LICENSE)
@@ -108,6 +111,9 @@ mcd-cn-assistant/
 ├── workbuddy.md               # WorkBuddy 开发上下文（WorkBuddy 专项奖励用）
 ├── SKILL.md                   # 技能主体（Agent 运行时加载）
 ├── LICENSE                    # MIT
+├── assets/
+│   ├── banner.svg             # 顶部横幅（自绘动画 SVG）
+│   └── cta-star.svg           # 结尾 Star CTA 图
 ├── config/
 │   └── keywords.json          # 关注关键词配置（能力二读取）
 ├── references/
@@ -347,3 +353,19 @@ Claude Code · Cursor · Cline · Cherry Studio · Trae · Kiro · VSCode Copilo
 [MIT](./LICENSE) © 2026 mcd-cn-assistant contributors
 
 麦当劳、McDonald's、麦乐送、麦麦省等商标归麦当劳及其关联方所有。
+
+---
+
+## ⭐ 如果这个技能有帮助，请点个 Star
+
+![如果这个技能有帮助，请点个 Star 让更多人看到](./assets/cta-star.svg)
+
+**点一下仓库右上角的 Star —— 每一颗星都会让更多人发现它。**
+
+- **一颗星 = 一次免费的"做得好"**，也是这个项目继续迭代下去的动力；
+- Star 数是本作品在**麦当劳程序员创意开发大赛**中的**唯一排名依据**，你的支持直接决定它能被多少人看到；
+- 顺手 **Fork** 一下，或者把它**分享**给正在被"群点算账"折磨的同事，同样帮大忙。
+
+<p align="center">
+  <a href="https://github.com/junxchan54-maker/mcd-cn-assistant/stargazers"><img src="https://img.shields.io/github/stars/junxchan54-maker/mcd-cn-assistant?style=for-the-badge&logo=github&label=Star%20this%20repo" alt="Star this repo"></a>
+</p>
