@@ -18,6 +18,8 @@
 | `query-store-coupons` | 指定门店下可用的优惠券列表 | 否 |
 | `query-survey-coupon` | 按订单号查询本人订单的 CSAT 满意度答卷及关联奖券（标题 / 核销时间 / 核销状态 / 点餐方式） | 否 |
 
+> ⚠️ **券 ID 只有 `query-store-coupons` 返回**（2026-10-16 实测）：`query-my-coupons` 与 `available-coupons` 只给标题 / 有效期 / 状态 / 标签，**没有 `couponId` / `couponCode`**，喂不进 `calculate-price` 的券入参。要"带券算价"必须先调 `query-store-coupons`（顺带拿 `products[].productCode` 知道券适用哪些商品）。另注意：带券算价返回的 `discount` 是相对**券的原价口径**算的（实测冰美式中杯 `productOriginalPrice 2300` vs 菜单促销价 1190，`discount 1310`），**别把 `discount` 直接当"省了多少"**。
+
 ## 点餐主链路
 
 | Tool name | 用途 | 写操作 |
@@ -99,10 +101,10 @@
 `now-time-info` → `delivery-query-addresses` → `delivery-query-stores` → 其余同上（`calculate-price` 会含**配送费 + 打包费**；外送菜单价与到店不同，**编码也可能不同**，务必按 `orderType=2` 重新取 `query-meals`）
 
 **隐藏吃法还原（能力五）**：
-解析文案/截图 → `query-meals`（当前渠道取码）→ `query-meal-detail`（读 `modification`）→ `calculate-price`（带特调）→ 用户确认 → `create-order`（外送单带 `remark` 写免费配件）
+解析文案/截图 → `query-meals`（当前渠道取码）→ `query-meal-detail`（读 `modification`；含 `rounds` 的商品改用 `roundList` 传选配项）→ `calculate-price`（带特调）→ 用户确认 → `create-order`（外送单带 `remark` 写免费配件）
 
 **穷鬼套餐演算（能力六）**：
-`query-my-coupons` + `query-store-coupons` + `available-coupons` → `query-meals` → 枚举 2~5 候选 → **每个候选** `calculate-price` → 以返回值排序 → 输出最低方案
+`query-store-coupons`（拿 `couponId`/`couponCode` + 适用商品）→ `query-meals` → 枚举 2~5 候选 → **每个候选** `calculate-price` → 以返回值排序 → 输出最低方案（**约束无解就明说，不硬凑**）
 
 **周边抢货雷达（能力七）**：
 `query-nearby-stores` / `delivery-query-stores` → 逐门店 `query-meals` 扫周边编码 → 选定后 `calculate-price`（**带与不带 `withOrder` 各算一次**）→ 用户确认 → `create-order`
