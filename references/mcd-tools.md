@@ -24,13 +24,13 @@
 |---|---|---|
 | `query-nearby-stores` | 按地址查询附近可用门店 | 否 |
 | `query-meals` | 查询当前门店可售卖餐品菜单（分类 / 编码 / 标签 / 优惠价） | 否 |
-| `query-meal-detail` | 按餐品编码查详情、套餐组成、可替换/换购选项 | 否 |
-| `calculate-price` | 按选购商品列表（可含优惠券）计算金额、配送费、打包费、优惠、应付总价 | 否 |
-| `create-order` | 创建订单，返回订单详情与支付链接 | **是** |
+| `query-meal-detail` | 按餐品编码查详情、套餐组成、可替换/换购选项、**特调项（`modification`）** | 否 |
+| `calculate-price` | 按选购商品列表（可含优惠券、**特调 `modification`**）计算金额、配送费、打包费、优惠、应付总价 | 否 |
+| `create-order` | 创建订单，返回订单详情与支付链接；支持 **`remark` 订单备注（仅 `orderType=2`、≤50 字）** 与 **`modification` 特调** | **是** |
 | `query-order` | 查询订单状态 / 内容 / 配送信息 | 否 |
 | `order-list` | 查询近期到店 / 外送历史订单（非商城订单） | 否 |
 | `cancel-order` | 取消点餐订单 | **是** |
-| `list-nutrition-foods` | 餐品营养信息（能量、蛋白质、脂肪、碳水、钠、钙） | 否 |
+| `list-nutrition-foods` | 餐品营养信息（`energyKcal / protein / fat / carbohydrate / sodium / calcium`；**无入参，一次返回全表约 180 项**） | 否 |
 | `query-meal-assistance` | 企业团餐场景下的助餐服务查询（**仅企业团餐 beType=6**） | 否 |
 | `query-promotions` | 企业团餐场景下的促销规则查询（满减 / 满折，**仅企业团餐 beType=6**） | 否 |
 
@@ -52,7 +52,23 @@
 | `mall-order-list` | 麦麦商城近一年订单列表 | 否 |
 | `mall-order-detail` | 商城订单详情（支付积分、支付金额、状态） | 否 |
 
-> **`mall-points-products` 类目 `2>8`（周边产品）实测不可用于买联名周边**（2026-10-13）：该类目下仅返回 3 项且**全部已过期**——罗技键鼠套装（8-17~8-21）、Nike Book 2 麦当劳特别联名款（6-05 14:00~16:00）、酸黄瓜吧唧礼盒（8-14）。麦当劳联名周边（PEACEMINUSONE 棒球帽/徽章/限定丝巾等）走的是「任意餐品消费 +39.9 元」的 APP 随单加价购，`query-meals` 的 `withOrder` 里也只有麦金卡、没有周边项。**结论：联名周边无法通过 MCP 购买，须引导用户在 APP 内下单；MCP 能代点的是联名食品。**
+> **`mall-points-products` 类目 `2>8`（周边产品）换不到联名周边**（2026-10-13 实测）：该类目下仅返回 3 项且**全部已过期**——罗技键鼠套装（8-17~8-21）、Nike Book 2 麦当劳特别联名款（6-05 14:00~16:00）、酸黄瓜吧唧礼盒（8-14）。
+>
+> ⚠️ **但联名周边本身是能买的**（2026-10-16 修正）：周边以**普通可售商品**出现在 `query-meals` 菜单里，`discountType="随单购麦金卡优惠"`、带 `withOrder: {membershipCode:"106", specId:"880"}`。实测编码（深圳金丰城 · 外送）：`521954` 联名复古棒球帽（¥39.90 / 麦金卡价 ¥34.90）、`521955` 联名徽章、`521743` 薯条脆卜卜毛绒周边（¥29.90 / ¥24.90）。走 `query-meals` → `calculate-price` → `create-order` 主链路即可，**不需要积分商城**。加购 `521234 麦金卡体验卡（15 天）¥9.90` 后周边降 ¥5、配送费与打包费归零，**几乎总是更省**（实测净省 ¥1.10～¥12.10）。周边**随门店和渠道变化**（同一时刻上海某店到店菜单没有帽/徽章，只有 `521946 旋旋星愿贴 ¥3.9`），**必须先扫再下结论**。
+
+## 2026-10-16 新增实测要点
+
+| 主题 | 实测结论 |
+|---|---|
+| **`create-order.remark`** | 订单备注，**仅 `orderType=2`（外送）场景可用，最多 50 字**；到店自取（`orderType=1`）**没有备注入口**。免费配件（番茄酱/糖/胡椒粉/空杯/奶球）只能走这里，或到店给话术 |
+| **`modification` 特调** | 商品级与套餐子项级都有。key 规则：选中用 `selectedKey`，未选且该组有 `unselectedKey` 的**也必须一并传**（用 `unselectedKey`）；某组 `minValues=maxValues=1` 且仅 1 项时为必选，不能取消。实测可取消酱料（巨无霸 `100116`、麦香鱼 `100126`）、改冰量（标准/去冰/多冰/少冰）、换燕麦奶（`120146`，+¥2）、加奶油球/白砂糖（`120519`/`120520`，price 0） |
+| **特调生效性** | `calculate-price` **不回显特调结果**，只能确认不报错 → 不得向用户断言"已生效" |
+| **外送菜单编码 ≠ 到店** | 同一餐品两套编码：巨无霸 到店 `1100` / 外送 `901100`；麦香鸡 `1450` / `901450`；麦香鸡套餐 `9900005453` / `9900003041`。**用错编码会导致 `calculate-price` 返回 `price:0`、`productList` 为空**（不是下架）→ 按当前 `orderType` 重新 `query-meals` 取码 |
+| **到店单无满减档位** | 实测到店 ¥94 篮子 `discount:0`、无 `enjoyable`。满减主要在外送 / 团餐场景 |
+| **`withOrder` 自动带入** | 传 `withOrder: {membershipCode:"106", membershipSpecId:"880"}` 后，`calculate-price` 会自动把 `521234 麦金卡体验卡（15天）` 和归零的配送/打包费写进 `productList`，**照抄返回值，不要自己拼价格** |
+| **`list-nutrition-foods` 无入参** | 一次返回全表（约 180 项），字段 `energyKj / energyKcal / protein / fat / carbohydrate / sodium / calcium`。表按**标准份**计，改特调不会自动重算 |
+| **无库存 / 无天气接口** | 35 个工具中**没有任何门店库存查询工具，也没有天气工具**。"这家店还有货吗""今天下雨吗"均无法通过 MCP 回答 |
+| **小红书链接抓不到** | 实测抓取 `xiaohongshu.com/explore/...` 只返回登录墙（页面仅含"取消 / 允许"）→ 引导用户粘贴文案或发截图 |
 
 ## 积分抽奖
 
@@ -80,7 +96,23 @@
 `now-time-info` → `query-nearby-stores` → `available-coupons` →（用户同意）`auto-bind-coupons` → `query-my-coupons` + `query-store-coupons` → `query-meals` →（可选）`query-meal-detail` → `calculate-price`（多方案）→ 用户确认 → `create-order`
 
 **最优惠点餐（外送）**：
-`now-time-info` → `delivery-query-addresses` → `delivery-query-stores` → 其余同上（`calculate-price` 会含**配送费 + 打包费**；外送菜单价与到店不同，务必按 `orderType=2` 重新取 `query-meals`）
+`now-time-info` → `delivery-query-addresses` → `delivery-query-stores` → 其余同上（`calculate-price` 会含**配送费 + 打包费**；外送菜单价与到店不同，**编码也可能不同**，务必按 `orderType=2` 重新取 `query-meals`）
+
+**隐藏吃法还原（能力五）**：
+解析文案/截图 → `query-meals`（当前渠道取码）→ `query-meal-detail`（读 `modification`）→ `calculate-price`（带特调）→ 用户确认 → `create-order`（外送单带 `remark` 写免费配件）
+
+**穷鬼套餐演算（能力六）**：
+`query-my-coupons` + `query-store-coupons` + `available-coupons` → `query-meals` → 枚举 2~5 候选 → **每个候选** `calculate-price` → 以返回值排序 → 输出最低方案
+
+**周边抢货雷达（能力七）**：
+`query-nearby-stores` / `delivery-query-stores` → 逐门店 `query-meals` 扫周边编码 → 选定后 `calculate-price`（**带与不带 `withOrder` 各算一次**）→ 用户确认 → `create-order`
+
+**参数化营养搭配（能力八）**：
+`list-nutrition-foods`（一次拉全表）→ 本地按热量/蛋白约束筛 → `query-meals` 确认在售 → `query-meal-detail`（去酱/换无糖）→ `calculate-price`
+
+**晒单卡片（能力九）**：无 MCP 调用，用已获得的订单与营养数据本地生成 SVG / HTML
+
+**场景感应推送（能力十）**：`now-time-info` →（可选）`campaign-calendar` / `available-coupons` → 本地判断时段与星期 → 组织推送内容
 
 ## 错误码
 
