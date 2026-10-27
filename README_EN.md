@@ -36,7 +36,7 @@ This project orchestrates those tools into **four real user journeys** and hard-
 | **⑨ Share-card generation** | "Make me a card I can post" | Generate a local SVG/HTML card + caption from **real** order and nutrition data | Costs no MCP calls; **numbers must be real** — if not queried, don't write it |
 | **⑩ Scene-aware push** | "What should I eat this Friday evening?" | Day-part + weekday logic (breakfast / tea break / night market, Friday treats, weekend specials) | **No weather data source**; weather needs the user to state it — never fabricate temperature or rain |
 
-> Full dictionaries, algorithms and templates: `references/xhs-playbook.md`. Real conversation samples: `docs/examples.md` examples 13–16.
+> Full dictionaries, algorithms and templates: `references/social-playbook.md`. Real conversation samples: `docs/examples.md` examples 13–16.
 
 ## Quick start
 

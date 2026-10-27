@@ -70,7 +70,7 @@
 | **`withOrder` 自动带入** | 传 `withOrder: {membershipCode:"106", membershipSpecId:"880"}` 后，`calculate-price` 会自动把 `521234 麦金卡体验卡（15天）` 和归零的配送/打包费写进 `productList`，**照抄返回值，不要自己拼价格** |
 | **`list-nutrition-foods` 无入参** | 一次返回全表（约 180 项），字段 `energyKj / energyKcal / protein / fat / carbohydrate / sodium / calcium`。表按**标准份**计，改特调不会自动重算 |
 | **无库存 / 无天气接口** | 35 个工具中**没有任何门店库存查询工具，也没有天气工具**。"这家店还有货吗""今天下雨吗"均无法通过 MCP 回答 |
-| **小红书链接抓不到** | 实测抓取 `xiaohongshu.com/explore/...` 只返回登录墙（页面仅含"取消 / 允许"）→ 引导用户粘贴文案或发截图 |
+| **社媒链接抓不到** | 实测抓取 `xiaohongshu.com/explore/...` 只返回登录墙（页面仅含"取消 / 允许"）→ 引导用户粘贴文案或发截图 |
 
 ## 积分抽奖
 
