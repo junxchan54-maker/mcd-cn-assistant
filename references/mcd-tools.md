@@ -24,7 +24,7 @@
 
 | Tool name | 用途 | 写操作 |
 |---|---|---|
-| `query-nearby-stores` | 按地址查询附近可用门店 | 否 |
+| `query-nearby-stores` | 按地址查询附近可用门店（返回 `businessStatus` 与营业时段） | 否 |
 | `query-meals` | 查询当前门店可售卖餐品菜单（分类 / 编码 / 标签 / 优惠价） | 否 |
 | `query-meal-detail` | 按餐品编码查详情、套餐组成、可替换/换购选项、**特调项（`modification`）** | 否 |
 | `calculate-price` | 按选购商品列表（可含优惠券、**特调 `modification`**）计算金额、配送费、打包费、优惠、应付总价 | 否 |
@@ -42,7 +42,7 @@
 |---|---|---|
 | `delivery-query-addresses` | 查询用户已创建的配送地址列表 | 否 |
 | `delivery-create-address` | 新增配送地址 | **是** |
-| `delivery-query-stores` | 按收货地址查询可配送门店 | 否 |
+| `delivery-query-stores` | 按收货地址查询可配送门店（返回 `businessStatus`、营业时段与 `reservationTimeOptions` 时段档） | 否 |
 
 ## 积分商城
 
@@ -70,6 +70,8 @@
 | **`withOrder` 自动带入** | 传 `withOrder: {membershipCode:"106", membershipSpecId:"880"}` 后，`calculate-price` 会自动把 `521234 麦金卡体验卡（15天）` 和归零的配送/打包费写进 `productList`，**照抄返回值，不要自己拼价格** |
 | **`list-nutrition-foods` 无入参** | 一次返回全表（约 180 项），字段 `energyKj / energyKcal / protein / fat / carbohydrate / sodium / calcium`。表按**标准份**计，改特调不会自动重算 |
 | **无库存 / 无天气接口** | 35 个工具中**没有任何门店库存查询工具，也没有天气工具**。"这家店还有货吗""今天下雨吗"均无法通过 MCP 回答 |
+| **深夜到店门店大面积歇业**（2026-10-28 实测） | 凌晨 00:05 定位杭州西湖区，`query-nearby-stores` 返回 5 家门店**全部 `businessStatus:false`**（最近 2.5km 的灵隐景区餐厅 07:00-19:00；最晚的西湖银泰 06:30-23:00）。同一时刻 `delivery-query-stores`（外送）3 家**全部营业**（00:00-23:59）→ 展示门店必须逐家标 `businessStatus` 与营业时段；全关时如实告知并说明外送是可选通道。另：到店预约时段里的「宵夜」档可能 22:46 就结束（西湖银泰「宵夜 22:14 至 22:46」），**别被档位名误导** |
+| **深夜外送专属菜单分类**（2026-10-28 实测） | 外送菜单在深夜出现「**麦麦深夜送**」分类：`9900010321` 四拼小食可乐餐 ¥49.9（原价 ¥81）、`9900005128` 深夜吃鸡堡堡桶 ¥88（原价 ¥140）。另有「多人分享餐」现成 N 人餐（`9900013002` 畅享吃鸡三人餐 ¥86 vs 三人各自点 ¥135.5）→ 多人代录前先提示。**时段空档**：外送 `reservationTimeOptions` 可能不覆盖当前时刻（10-28 夜市档「00:30 至 05:29」，00:00-00:29 为空档）；**立即点单不受影响**（实测可正常算价），仅预约需告知最早可约时段 |
 | **社媒链接抓不到** | 实测抓取 `xiaohongshu.com/explore/...` 只返回登录墙（页面仅含"取消 / 允许"）→ 引导用户粘贴文案或发截图 |
 
 ## 积分抽奖
